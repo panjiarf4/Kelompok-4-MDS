@@ -1,0 +1,10 @@
+---
+title: "Tugas MDS 1"
+format: html
+editor: visual
+---
+
+```{r}
+
+```
+
