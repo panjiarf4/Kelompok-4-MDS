@@ -1,0 +1,153 @@
+---
+title: "Front-End"
+author: "Kelompok 4"
+format: html
+editor: visual
+---
+
+## Library 
+
+```{r}
+library(shiny)
+library(DBI)
+library(RMySQL)
+library(glue)
+library(readr)
+library(shinydashboard)
+library(DT)
+```
+## UI
+
+```{r}
+# UI
+ui <- dashboardPage(
+  dashboardHeader(title = "Dashboard Online Shop"),
+  
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Customer", tabName = "customer", icon = icon("users")),
+      menuItem("Online Shop", tabName = "onlineshop", icon = icon("shopping-cart")),
+      menuItem("Product", tabName = "product", icon = icon("box")),
+      menuItem("Transaction", tabName = "transaction", icon = icon("exchange-alt")),
+      menuItem("Voucher", tabName = "voucher", icon = icon("tags"))
+    )
+  ),
+  
+  dashboardBody(
+    tabItems(
+      tabItem(
+        tabName = "customer",
+        h2("Customer Data"),
+        DTOutput("tableCustomer")
+      ),
+      tabItem(
+        tabName = "onlineshop",
+        h2("Online Shop Data"),
+        DTOutput("tableOnlineShop")
+      ),
+      tabItem(
+        tabName = "product",
+        h2("Product Data"),
+        DTOutput("tableProduct")
+      ),
+      tabItem(
+        tabName = "transaction",
+        h2("Transaction Data"),
+        DTOutput("tableTransaction")
+      ),
+      tabItem(
+        tabName = "voucher",
+        h2("Voucher Data"),
+        DTOutput("tableVoucher")
+      )
+    )
+  )
+)
+
+```
+
+## Server
+
+```{r}
+# Server
+server <- function(input, output) {
+  
+
+db_config <- list(
+  host = "127.0.0.1",
+  port = 3309,
+  user = "root",
+  password = "",
+  dbname = "Tugas_Mds"
+)
+  
+con_db <- dbConnect(
+  MySQL(),
+  host = db_config$host,
+  port = db_config$port,
+  user = db_config$user,
+  password = db_config$password,
+  dbname = db_config$dbname
+)
+  
+
+  output$tableCustomer <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableOnlineShop <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM OnlineShop"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableProduct <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Product"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableTransaction <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Transaction"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableVoucher <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Voucher"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  # Tutup koneksi saat aplikasi berhenti
+  onStop(function() {
+    dbDisconnect(con_db)
+  })
+}
+
+```
+
+## Run App
+
+```{r}
+# Run App
+shinyApp(ui, server)
+```
+
