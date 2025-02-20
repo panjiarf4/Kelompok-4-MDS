@@ -4,7 +4,6 @@ format: html
 editor: visual
 ---
 
-
 ```{r}
 library(DBI)
 library(RMySQL)
@@ -37,6 +36,7 @@ con <- dbConnect(
 ```
 
 # JIKA BELUM ADA
+
 ```{r}
 #3. Membuat database jika belum ada
 tryCatch({
@@ -320,4 +320,8 @@ dbGetQuery(con_db, "SELECT COUNT(*) FROM onlineshop")
 dbGetQuery(con_db, "SELECT COUNT(*) FROM product")
 dbGetQuery(con_db, "SELECT COUNT(*) FROM transaction")
 dbGetQuery(con_db, "SELECT COUNT(*) FROM voucher")
+#update 20-Feb
+dbGetQuery(con_db, "SELECT AVG(discount) FROM onlineshop")
 ```
+
+![](images/clipboard-9133593.png)
