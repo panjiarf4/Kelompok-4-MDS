@@ -1,9 +1,0 @@
----
-title: "cba tes"
-format: html
-editor: visual
----
-```{r}
-tesss
-```
-
