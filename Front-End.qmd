@@ -5,7 +5,7 @@ format: html
 editor: visual
 ---
 
-## Library 
+## Library
 
 ```{r}
 library(shiny)
@@ -17,6 +17,7 @@ library(shinydashboard)
 library(DT)
 library(ggplot2)
 ```
+
 ## UI
 
 ```{r}
