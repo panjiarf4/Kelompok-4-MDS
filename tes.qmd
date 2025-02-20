@@ -14,12 +14,12 @@ When you click the **Render** button a document will be generated that includes 
 
 ```{r}
 1 + 1sss
-```
+```aaaasadsadas
 
 You can add options to executable code like this
 
 ```{r}
-#| echo: false
+#| echo: falsedsfsdfsd
 2 * 2
 ```
 
