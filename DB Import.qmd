@@ -22,7 +22,6 @@ db_config <- list(
 )
 ```
 
-
 ```{r}
 #2. Membuat koneksi ke MySQL server (tanpa database spesifik)
 con <- dbConnect(
@@ -48,6 +47,7 @@ tryCatch({
 ```
 
 # Membuat Tabel ke dalam database
+
 ```{r}
 # Struktur tabel dalam database
 table_definitions <- list(
@@ -250,6 +250,7 @@ for (i in 1:nrow(data_product)) {
 message("✅ Data Product berhasil dimasukkan.")
 
 ```
+
 ```{r}
 for (i in 1:nrow(data_onlineshop)) {
   query <- sprintf(
@@ -284,6 +285,7 @@ for (i in 1:nrow(data_onlineshop)) {
 message("✅ Data OnlineShop berhasil dimasukkan.")
 
 ```
+
 ```{r}
 for (i in 1:nrow(data_voucher)) {
   query <- sprintf(
@@ -297,6 +299,7 @@ for (i in 1:nrow(data_voucher)) {
 message("✅ Data Voucher berhasil dimasukkan.")
 
 ```
+
 ```{r}
 for (i in 1:nrow(data_transaction)) {
   query <- sprintf(
@@ -317,7 +320,6 @@ for (i in 1:nrow(data_transaction)) {
 message("✅ Data Transaction berhasil dimasukkan.")
 
 ```
-
 
 # Mengecek jumlah data yang berhasil dimasukkan
 
@@ -354,5 +356,3 @@ print(onlineshop_data)
 print(transaction_data)
 
 ```
-
-
