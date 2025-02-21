@@ -16,6 +16,8 @@ library(readr)
 library(shinydashboard)
 library(DT)
 library(ggplot2)
+library(dplyr)
+library(highcharter)
 ```
 
 ## UI
@@ -27,8 +29,8 @@ ui <- dashboardPage(
   
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Customer", tabName = "customer", icon = icon("users")),
       menuItem("Online Shop", tabName = "onlineshop", icon = icon("shopping-cart")),
+      menuItem("Customer", tabName = "customer", icon = icon("users")),
       menuItem("Product", tabName = "product", icon = icon("box")),
       menuItem("Transaction", tabName = "transaction", icon = icon("exchange-alt")),
       menuItem("Voucher", tabName = "voucher", icon = icon("tags"))
@@ -38,25 +40,32 @@ ui <- dashboardPage(
   dashboardBody(
     tabItems(
       tabItem(
-        tabName = "customer",
+        tabName = "onlineshop",
         fluidRow(
-          box(title = div(strong("Gender Distribution"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("gender_pie")),
-          box(title = div(strong("Customer by Location"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("location_bar")),
-          box(title = div(strong("Age Distribution"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("age_hist"))
+          valueBoxOutput("total_price_box", width = 6),
+          box(
+            width = 6,
+            selectInput("category", "Select Product Category:", choices = NULL, selected = NULL)
+            )
           ),
         fluidRow(
-                box(width = 12,
-                    div(strong("Customer Data"),style="text-align: center;font-size: 150%")
-                )),
-        DTOutput("tableCustomer")
-      ),
-      tabItem(
-        tabName = "onlineshop",
+          box(title = div(strong("Customer by Location"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("location_bar")),
+          box(title = div(strong("Gender Distribution"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("gender_pie")),
+          box(title = div(strong("Age Distribution"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("age_hist"))
+          ),
         fluidRow(
                 box(width = 12,
                     div(strong("Online Shop Data"),style="text-align: center;font-size: 150%")
                 )),
         DTOutput("tableOnlineShop")
+      ),
+      tabItem(
+        tabName = "customer",
+        fluidRow(
+                box(width = 12,
+                    div(strong("Customer Data"),style="text-align: center;font-size: 150%")
+                )),
+        DTOutput("tableCustomer")
       ),
       tabItem(
         tabName = "product",
@@ -98,8 +107,7 @@ ui <- dashboardPage(
 
 ```{r}
 # Server
-server <- function(input, output) {
-  
+server <- function(input, output, session) {
 
 db_config <- list(
   host = "127.0.0.1",
@@ -119,12 +127,36 @@ con_db <- dbConnect(
 )
   
   customer_data <- reactive({
-  dbGetQuery(con_db, "SELECT Gender, Locations, Age FROM Customer")
+  dbGetQuery(con_db, "SELECT * FROM OnlineShop")
 })
 
-# **1. Pie Chart - Distribusi Gender**
+observe({
+  updateSelectInput(session, "category", 
+                    choices = unique(customer_data()$Product_Category),
+                    selected = NULL)
+})
+
+# Update server logic to filter by selected category
+data_filtered <- reactive({
+  customer_data() %>%
+    filter(Product_Category == input$category)
+})
+
+output$total_price_box <- renderValueBox({
+  total_price <- data_filtered() %>%
+    summarise(Total_Price = sum(Total_Price, na.rm = TRUE)) %>%
+    pull(Total_Price)
+  
+  valueBox(
+    paste("Total Price:", format(total_price, big.mark = ",")),
+    "Total Revenue by Category",
+    color = "aqua",
+    icon = icon("dollar-sign")
+  )
+})
+
 output$gender_pie <- renderHighchart({
-  data <- customer_data()
+  data <- data_filtered()
   
   gender_count <- data %>%
     filter(!is.na(Gender)) %>%
@@ -143,24 +175,23 @@ output$gender_pie <- renderHighchart({
     hc_plotOptions(pie = list(
       allowPointSelect = TRUE,
       cursor = "pointer",
-      dataLabels = list(enabled = TRUE, format = "<b>{point.name}</b>: {point.y} ({point.percentage:.1f}%)")
+      dataLabels = list(enabled = TRUE, format = "<b>{point.name}</b>: ({point.percentage:.1f}%)")
     ))
 })
 
-# **2. Bar Chart - Jumlah Customer Berdasarkan Lokasi (Urut dari besar ke kecil)**
 output$location_bar <- renderHighchart({
-  data <- customer_data()
+  data <- data_filtered()
   
   location_count <- data %>%
-    filter(!is.na(Locations)) %>%
-    group_by(Locations) %>%
+    filter(!is.na(Location)) %>%
+    group_by(Location) %>%
     summarise(n = n()) %>%
     ungroup() %>%
-    arrange(desc(n))  # Urutkan dari besar ke kecil
+    arrange(desc(n))
   
   highchart() %>%
     hc_chart(type = "column") %>%
-    hc_xAxis(categories = location_count$Locations) %>%
+    hc_xAxis(categories = location_count$Location) %>%
     hc_yAxis(title = list(text = "Number of Customers")) %>%
     hc_add_series(name = "Count", data = location_count$n, colorByPoint = TRUE) %>%
     hc_plotOptions(column = list(
@@ -168,11 +199,10 @@ output$location_bar <- renderHighchart({
     ))
 })
 
-# **3. Histogram - Distribusi Umur Customer**
 output$age_hist <- renderHighchart({
-  data <- customer_data() %>% filter(!is.na(Age))  # Hapus NA
+  data <- data_filtered() %>% filter(!is.na(Age))
   
-  hist_data <- as.data.frame(table(cut(data$Age, breaks = seq(min(data$Age), max(data$Age), by = 5))))
+  hist_data <- as.data.frame(table(cut(data$Age, breaks = seq(min(data$Age), max(data$Age), by = 10))))
   names(hist_data) <- c("Age", "Count")
   
   hchart(
@@ -188,9 +218,8 @@ output$age_hist <- renderHighchart({
     ))
 })
 
-  
-  output$tableCustomer <- renderDT({
-    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
+  output$tableOnlineShop <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM OnlineShop"),
               options = list(scrollX = TRUE, 
                              scrollY = "400px",
                              pageLength = 20, 
@@ -198,8 +227,8 @@ output$age_hist <- renderHighchart({
                              class = 'cell-border stripe'))
   })
   
-  output$tableOnlineShop <- renderDT({
-    datatable(dbGetQuery(con_db, "SELECT * FROM OnlineShop"),
+  output$tableCustomer <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
               options = list(scrollX = TRUE, 
                              scrollY = "400px",
                              pageLength = 20, 
