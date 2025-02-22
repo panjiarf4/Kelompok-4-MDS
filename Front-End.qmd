@@ -25,7 +25,8 @@ library(highcharter)
 ```{r}
 # UI
 ui <- dashboardPage(
-  dashboardHeader(title = "Sales Dashboard"),
+  skin = "black",
+  dashboardHeader(title = span("Sales Dashboard", style = "font-weight: bold;")),
   
   dashboardSidebar(
     sidebarMenu(
@@ -33,7 +34,8 @@ ui <- dashboardPage(
       menuItem("Customer", tabName = "customer", icon = icon("users")),
       menuItem("Product", tabName = "product", icon = icon("box")),
       menuItem("Transaction", tabName = "transaction", icon = icon("exchange-alt")),
-      menuItem("Voucher", tabName = "voucher", icon = icon("tags"))
+      menuItem("Voucher", tabName = "voucher", icon = icon("tags")),
+      menuItem("Member", tabName = "member", icon = icon("users"))
     )
   ),
   
@@ -42,9 +44,10 @@ ui <- dashboardPage(
       tabItem(
         tabName = "onlineshop",
         fluidRow(
-          valueBoxOutput("total_price_box", width = 6),
+          valueBoxOutput("total_price_box", width = 4),
+          valueBoxOutput("total_qty_box", width = 4),
           box(
-            width = 6,
+            width = 4,
             selectInput("category", "Select Product Category:", choices = NULL, selected = NULL)
             )
           ),
@@ -148,10 +151,23 @@ output$total_price_box <- renderValueBox({
     pull(Total_Price)
   
   valueBox(
-    paste("Total Price:", format(total_price, big.mark = ",")),
+    paste(format(total_price, big.mark = ",")),
     "Total Revenue by Category",
-    color = "aqua",
+    color = "navy",
     icon = icon("dollar-sign")
+  )
+})
+
+output$total_qty_box <- renderValueBox({
+  total_qty <- data_filtered() %>%
+    summarise(Total_qty = sum(Quantity, na.rm = TRUE)) %>%
+    pull(Total_qty)
+  
+  valueBox(
+    paste(format(total_qty, big.mark = ",")),
+    "Total Quantity by Category",
+    color = "navy",
+    icon = icon("store")
   )
 })
 
@@ -166,6 +182,7 @@ output$gender_pie <- renderHighchart({
   
   highchart() %>%
     hc_chart(type = "pie") %>%
+    hc_colors(c("#FFB1B1", "#1679AB")) %>% 
     hc_add_series(
       name = "Count",
       data = lapply(1:nrow(gender_count), function(i) {
@@ -191,6 +208,7 @@ output$location_bar <- renderHighchart({
   
   highchart() %>%
     hc_chart(type = "column") %>%
+    hc_colors(c("#2973B2", "#48A6A7", "#9ACBD0", "#A3D1C6")) %>% 
     hc_xAxis(categories = location_count$Location) %>%
     hc_yAxis(title = list(text = "Number of Customers")) %>%
     hc_add_series(name = "Count", data = location_count$n, colorByPoint = TRUE) %>%
@@ -205,18 +223,25 @@ output$age_hist <- renderHighchart({
   hist_data <- as.data.frame(table(cut(data$Age, breaks = seq(min(data$Age), max(data$Age), by = 10))))
   names(hist_data) <- c("Age", "Count")
   
-  hchart(
-    hist_data, "column", hcaes(x = Age, y = Count)
-  ) %>%
+  hist_data$Age <- as.character(hist_data$Age)  # Pastikan Age tidak berupa faktor
+  
+  highchart() %>%
     hc_chart(type = "column") %>%
-    hc_xAxis(title = list(text = "Age")) %>%
+    hc_xAxis(categories = hist_data$Age, title = list(text = "Age")) %>%
     hc_yAxis(title = list(text = "Count")) %>%
+    hc_colors(c("#2973B2", "#48A6A7", "#9ACBD0", "#A3D1C6")) %>%
+    hc_add_series(
+      name = "Count",
+      data = as.numeric(hist_data$Count),
+      colorByPoint = TRUE  # Pastikan setiap bar mendapatkan warna berbeda
+    ) %>%
     hc_plotOptions(column = list(
       pointPadding = 0.2,
-      borderWidth = 0,
-      color = "steelblue"
+      borderWidth = 0
     ))
 })
+
+
 
   output$tableOnlineShop <- renderDT({
     datatable(dbGetQuery(con_db, "SELECT * FROM OnlineShop"),
