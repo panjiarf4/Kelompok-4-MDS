@@ -29,81 +29,132 @@ ui <- dashboardPage(
   dashboardHeader(title = span("Sales Dashboard", style = "font-weight: bold;")),
   
   dashboardSidebar(
+  tags$div(
+    style = "text-align: center; padding: 10px;",
+    imageOutput("logo", height = "100px") 
+  ),
+  
     sidebarMenu(
       menuItem("Online Shop", tabName = "onlineshop", icon = icon("shopping-cart")),
-      menuItem("Customer", tabName = "customer", icon = icon("users")),
-      menuItem("Product", tabName = "product", icon = icon("box")),
-      menuItem("Transaction", tabName = "transaction", icon = icon("exchange-alt")),
-      menuItem("Voucher", tabName = "voucher", icon = icon("tags")),
+      menuItem("Table", icon = icon("table"),
+               menuSubItem("Transaction", tabName = "transaction", icon = icon("exchange-alt")),
+               menuSubItem("Customer", tabName = "customer", icon = icon("users")),
+               menuSubItem("Product", tabName = "product", icon = icon("box")),
+               menuSubItem("Voucher", tabName = "voucher", icon = icon("tags"))),
       menuItem("Member", tabName = "member", icon = icon("users"))
     )
   ),
   
   dashboardBody(
     tabItems(
+      # Tab Online Shop
       tabItem(
         tabName = "onlineshop",
         fluidRow(
           valueBoxOutput("total_price_box", width = 4),
           valueBoxOutput("total_qty_box", width = 4),
-          box(
-            width = 4,
-            selectInput("category", "Select Product Category:", choices = NULL, selected = NULL)
-            )
-          ),
+          box(width = 4, selectInput("category", "Select Product Category:", choices = NULL, selected = NULL))
+        ),
         fluidRow(
-          box(title = div(strong("Customer by Location"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("location_bar")),
-          box(title = div(strong("Gender Distribution"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("gender_pie")),
-          box(title = div(strong("Age Distribution"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("age_hist"))
-          ),
+          box(title = div(strong("Customer by Location"), style="text-align: center; font-size: 100%;"), 
+              width = 4, highchartOutput("location_bar")),
+          box(title = div(strong("Gender Distribution"), style="text-align: center; font-size: 100%;"), 
+              width = 4, highchartOutput("gender_pie")),
+          box(title = div(strong("Age Distribution"), style="text-align: center; font-size: 100%;"), 
+              width = 4, highchartOutput("age_hist"))
+        ),
         fluidRow(
-                box(width = 12,
-                    div(strong("Online Shop Data"),style="text-align: center;font-size: 150%")
-                )),
+          box(width = 12, div(strong("Online Shop Data"),style="text-align: center;font-size: 150%"))
+        ),
         DTOutput("tableOnlineShop")
       ),
+
+      # Tab Customer
       tabItem(
         tabName = "customer",
         fluidRow(
-                box(width = 12,
-                    div(strong("Customer Data"),style="text-align: center;font-size: 150%")
-                )),
+          box(width = 12, div(strong("Customer Data"),style="text-align: center;font-size: 150%"))
+        ),
         DTOutput("tableCustomer")
       ),
+
+      # Tab Product
       tabItem(
         tabName = "product",
         fluidRow(
-                box(width = 12,
-                    div(strong("Product Data"),style="text-align: center;font-size: 150%")
-                )),
+          box(width = 12, div(strong("Product Data"),style="text-align: center;font-size: 150%"))
+        ),
         DTOutput("tableProduct")
       ),
+
+      # Tab Transaction
       tabItem(
         tabName = "transaction",
         fluidRow(
-                box(width = 12,
-                    div(strong("Transaction Data"),style="text-align: center;font-size: 150%")
-                )),
+          box(width = 12, div(strong("Transaction Data"),style="text-align: center;font-size: 150%"))
+        ),
         DTOutput("tableTransaction")
       ),
+
+      # Tab Voucher
       tabItem(
         tabName = "voucher",
         fluidRow(
-                box(width = 12,
-                    div(strong("Voucher Data"),style="text-align: center;font-size: 150%")
-                )),
+          box(width = 12, div(strong("Voucher Data"),style="text-align: center;font-size: 150%"))
+        ),
         DTOutput("tableVoucher")
+      ),
+
+      # Tab Member
+      tabItem(
+        tabName = "member",
+        fluidRow(
+          box(width = 12, div(strong("Team Members"), style="text-align: center; font-size: 200%;"))
+        ),
+        fluidRow(
+          box(width = 4, 
+              div(strong("DB-Manager"),style="text-align: center; font-size: 150%;"),
+              div(imageOutput("Panji"), style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Panji Lokajaya Arifa"),style="text-align: center;"),
+              div(strong("M0501241036"),style="text-align: center;")),
+          
+          box(width = 4, 
+              div(strong("DB-Designer"),style="text-align: center; font-size: 150%;"),
+              div(imageOutput("Syafiq"), style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Muhammad Syafiq"),style="text-align: center;"),
+              div(strong("M0501241005"),style="text-align: center;")),
+          
+          box(width = 4, div(imageOutput("Unique"), 
+              div(strong("Back-End"),style="text-align: center; font-size: 150%;"),
+              style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Unique Desyrre A. Resiloy"),style="text-align: center;"),
+              div(strong("M0501241025"),style="text-align: center;"))
+        ),
+        fluidRow(
+          box(width = 6, 
+              div(strong("Front-End"),style="text-align: center; font-size: 150%;"),
+              div(imageOutput("Zahra"), style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Putri Nisrina Az-Zahra"),style="text-align: center;"),
+              div(strong("M0501241050"),style="text-align: center;")),
+          
+          box(width = 6, 
+              div(strong("Technical-Writer"),style="text-align: center; font-size: 150%;"),
+              div(imageOutput("Riza"), style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Riza Rahmah Angelia"),style="text-align: center;"),
+              div(strong("M0501241008"),style="text-align: center;"))
+        )
       )
     ),
+
+    # Footer
     fluidRow(
       tags$div(
         HTML("by <b>Kelompok 4</b> | 2025 "),
         style = "text-align:center; padding:10px; font-size:14px; color:gray;"
       )
-    )  
+    )
   )
 )
-
 ```
 
 ## Server
@@ -287,6 +338,29 @@ output$age_hist <- renderHighchart({
                              autoWidth = TRUE, 
                              class = 'cell-border stripe'))
   })
+  
+  output$Panji <- renderImage({
+  list(src = "www/Panji.jpg", contentType = "image/jpg", 
+       width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$Syafiq <- renderImage({
+  list(src = "www/Syafiq.jpg", contentType = "image/jpg", 
+       width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$Unique <- renderImage({
+  list(src = "www/Unique.jpg", contentType = "image/jpg", 
+       width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$Zahra <- renderImage({
+  list(src = "www/Zahra.jpg", contentType = "image/jpg", 
+       width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$Riza <- renderImage({
+  list(src = "www/Riza.jpg", contentType = "image/jpg", 
+       width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$logo <- renderImage({
+    list(src = "www/logo.png", width = 100, height = 100)}, deleteFile = FALSE)
   
   # Tutup koneksi saat aplikasi berhenti
   onStop(function() {
