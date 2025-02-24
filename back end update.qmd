@@ -1,0 +1,592 @@
+---
+title: "BackEnd Update"
+format: html
+editor: visual
+---
+
+# Library
+
+```{r}
+library(shiny)
+library(DBI)
+library(RMySQL)
+library(glue)
+library(readr)
+library(shinydashboard)
+library(DT)
+library(ggplot2)
+library(dplyr)
+library(highcharter)
+```
+
+# UI
+
+```{r}
+# UI
+ui <- dashboardPage(
+  skin = "blue",
+  dashboardHeader(title = span("Sales Dashboard", style = "font-weight: bold;")),
+  
+  dashboardSidebar(
+    tags$div(
+      style = "text-align: center; padding: 10px;",
+      imageOutput("logo", height = "100px") 
+    ),
+    
+    sidebarMenu(
+      menuItem("Online Shop", tabName = "onlineshop", icon = icon("shopping-cart")),
+      menuItem("Table", icon = icon("table"),
+               menuSubItem("Transaction", tabName = "transaction", icon = icon("exchange-alt")),
+               menuSubItem("Customer", tabName = "customer", icon = icon("users")),
+               menuSubItem("Product", tabName = "product", icon = icon("box")),
+               menuSubItem("Voucher", tabName = "voucher", icon = icon("tags"))),
+      menuItem("Member", tabName = "member", icon = icon("users"))
+    )
+  ),
+  
+  dashboardBody(
+    tabItems(
+      
+     # Tab Online Shop
+      tabItem(
+        tabName = "onlineshop",
+        fluidRow(
+          valueBoxOutput("total_price_box", width = 4),
+          valueBoxOutput("total_qty_box", width = 4),
+          box(width = 4, selectInput("category", "Select Product Category:", choices = NULL, selected = NULL))
+        ),
+        fluidRow(
+          box(title = div(strong("Customer by Location"), style="text-align: center; font-size: 100%;"), 
+              width = 4, highchartOutput("location_bar")),
+          box(title = div(strong("Gender Distribution"), style="text-align: center; font-size: 100%;"), 
+              width = 4, highchartOutput("gender_pie")),
+          box(title = div(strong("Age Distribution"), style="text-align: center; font-size: 100%;"), 
+              width = 4, highchartOutput("age_hist"))
+        ),
+        fluidRow(
+          box(width = 12, div(strong("Online Shop Data"),style="text-align: center;font-size: 150%"))
+        ),
+        DTOutput("tableOnlineShop")
+      ),
+      
+      # Tab Customer
+      tabItem(
+  tabName = "customer",
+  fluidRow(
+    box(width = 6, selectInput("select_location", "Pilih Lokasi", choices = NULL)),
+    box(width = 6, valueBoxOutput("total_customers", width = NULL))
+  ),
+  fluidRow(
+    box(width = 6, highchartOutput("gender_pie_chart")),
+    box(width = 6, highchartOutput("age_histogram"))
+  ),
+  fluidRow(
+    box(width = 12, DTOutput("tableCustomer"))
+  )
+),
+
+      tabItem(
+        tabName = "customer",
+        fluidRow(
+          box(width = 12, div(strong("Customer Data"),style="text-align: center;font-size: 150%"))
+        ),
+        DTOutput("tableCustomer")
+      ),
+
+      # Tab Product
+      tabItem(
+  tabName = "product",
+  fluidRow(
+    box(width = 12, div(strong("Product Data"), style = "text-align: center; font-size: 150%"))
+  ),
+  fluidRow(
+    box(width = 4, selectInput("select_category", "Pilih Kategori Produk", choices = NULL))
+  ),
+  fluidRow(
+    box(width = 4, valueBoxOutput("total_products", width = NULL))
+  ),
+  fluidRow(
+    box(width = 12, DTOutput("tableProduct"))
+  )
+),
+
+
+      # Tab Transaction
+      tabItem(
+  tabName = "transaction",
+  fluidRow(
+    box(width = 4, selectInput("select_customer", "Pilih Customer", choices = NULL)),
+    box(width = 4, selectInput("select_product", "Pilih Produk", choices = NULL)),
+    box(width = 4, selectInput("select_payment", "Pilih Metode Pembayaran", choices = NULL))
+  ),
+  fluidRow(
+    box(width = 4, valueBoxOutput("total_transactions", width = NULL)),
+    box(width = 4, valueBoxOutput("total_revenue", width = NULL)),
+    box(width = 4, valueBoxOutput("avg_discount", width = NULL))
+  ),
+  fluidRow(
+    box(width = 6, highchartOutput("voucher_status_pie")),
+    box(width = 6, highchartOutput("transaction_date_hist"))
+  ),
+  fluidRow(
+    box(width = 12, DTOutput("tableTransaction"))
+  )
+),
+
+
+      # Tab Voucher
+      tabItem(
+  tabName = "voucher",
+
+  # Header
+  fluidRow(
+    box(width = 12, div(strong("Voucher Data"), style = "text-align: center; font-size: 150%"))
+  ),
+
+  # Widget Filter Voucher
+  fluidRow(
+    box(width = 6, selectInput("select_voucher", "Pilih Voucher", choices = NULL))
+  ),
+
+  # ValueBox untuk ringkasan data voucher
+  fluidRow(
+    box(width = 6, valueBoxOutput("total_voucher")),
+    box(width = 6, valueBoxOutput("avg_discount"))
+  ),
+
+  # Grafik distribusi diskon berdasarkan voucher
+  fluidRow(
+    box(width = 12, highchartOutput("voucher_discount_pie"))
+  ),
+
+  # Tabel Voucher
+  fluidRow(
+    box(width = 12, DTOutput("tableVoucher"))
+  )
+),
+
+
+      # Tab Member
+      tabItem(
+        tabName = "member",
+        fluidRow(
+          box(width = 12, div(strong("Team Members"), style="text-align: center; font-size: 200%;"))
+        ),
+        fluidRow(
+          box(width = 4, 
+              div(strong("DB-Manager"),style="text-align: center; font-size: 150%;"),
+              div(imageOutput("Panji"), style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Panji Lokajaya Arifa"),style="text-align: center;"),
+              div(strong("M0501241036"),style="text-align: center;")),
+          
+          box(width = 4, 
+              div(strong("DB-Designer"),style="text-align: center; font-size: 150%;"),
+              div(imageOutput("Syafiq"), style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Muhammad Syafiq"),style="text-align: center;"),
+              div(strong("M0501241005"),style="text-align: center;")),
+          
+          box(width = 4, div(imageOutput("Unique"), 
+              div(strong("Back-End"),style="text-align: center; font-size: 150%;"),
+              style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Unique Desyrre A. Resiloy"),style="text-align: center;"),
+              div(strong("M0501241025"),style="text-align: center;"))
+        ),
+        fluidRow(
+          box(width = 6, 
+              div(strong("Front-End"),style="text-align: center; font-size: 150%;"),
+              div(imageOutput("Zahra"), style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Putri Nisrina Az-Zahra"),style="text-align: center;"),
+              div(strong("M0501241050"),style="text-align: center;")),
+          
+          box(width = 6, 
+              div(strong("Technical-Writer"),style="text-align: center; font-size: 150%;"),
+              div(imageOutput("Riza"), style="text-align: center; margin-bottom:-180px;"),
+              div(strong("Riza Rahmah Angelia"),style="text-align: center;"),
+              div(strong("M0501241008"),style="text-align: center;"))
+        )
+      )
+    ),
+
+    # Footer
+    fluidRow(
+      tags$div(
+        HTML("by <b>Kelompok 4</b> | 2025 "),
+        style = "text-align:center; padding:10px; font-size:14px; color:gray;"
+      )
+    )
+  )
+)
+
+```
+
+# Server
+
+```{r}
+server <- function(input, output, session) {
+
+  db_config <- list(
+    host = "127.0.0.1",
+    port = 3309,
+    user = "root",
+    password = "",
+    dbname = "Tugas_Mds"
+  )
+  
+  con_db <- dbConnect(
+    MySQL(),
+    host = db_config$host,
+    port = db_config$port,
+    user = db_config$user,
+    password = db_config$password,
+    dbname = db_config$dbname
+  )
+  
+  customer_data <- reactive({
+    dbGetQuery(con_db, "SELECT * FROM OnlineShop")
+  })
+
+  observe({
+    updateSelectInput(session, "category", 
+                      choices = unique(customer_data()$Product_Category),
+                      selected = NULL)
+  })
+
+  data_filtered <- reactive({
+    customer_data() %>%
+      filter(Product_Category == input$category)
+  })
+
+  output$total_price_box <- renderValueBox({
+    total_price <- data_filtered() %>%
+      summarise(Total_Price = sum(Total_Price, na.rm = TRUE)) %>%
+      pull(Total_Price)
+    
+    valueBox(
+      paste(format(total_price, big.mark = ",")),
+      "Total Revenue by Category",
+      color = "navy",
+      icon = icon("dollar-sign")
+    )
+  })
+
+  output$total_qty_box <- renderValueBox({
+    total_qty <- data_filtered() %>%
+      summarise(Total_qty = sum(Quantity, na.rm = TRUE)) %>%
+      pull(Total_qty)
+    
+    valueBox(
+      paste(format(total_qty, big.mark = ",")),
+      "Total Quantity by Category",
+      color = "navy",
+      icon = icon("store")
+    )
+  })
+  
+  output$gender_pie <- renderHighchart({
+  data <- data_filtered()
+  
+  gender_count <- data %>%
+    filter(!is.na(Gender)) %>%
+    group_by(Gender) %>%
+    summarise(n = n()) %>%
+    ungroup()
+  
+  highchart() %>%
+    hc_chart(type = "pie") %>%
+    hc_colors(c("#FFB1B1", "#1679AB")) %>% 
+    hc_add_series(
+      name = "Count",
+      data = lapply(1:nrow(gender_count), function(i) {
+        list(name = gender_count$Gender[i], y = gender_count$n[i])
+      })
+    ) %>%
+    hc_plotOptions(pie = list(
+      allowPointSelect = TRUE,
+      cursor = "pointer",
+      dataLabels = list(enabled = TRUE, format = "<b>{point.name}</b>: ({point.percentage:.1f}%)")
+    ))
+})
+
+output$location_bar <- renderHighchart({
+  data <- data_filtered()
+  
+  location_count <- data %>%
+    filter(!is.na(Location)) %>%
+    group_by(Location) %>%
+    summarise(n = n()) %>%
+    ungroup() %>%
+    arrange(desc(n))
+  
+  highchart() %>%
+    hc_chart(type = "column") %>%
+    hc_colors(c("#2973B2", "#48A6A7", "#9ACBD0", "#A3D1C6")) %>% 
+    hc_xAxis(categories = location_count$Location) %>%
+    hc_yAxis(title = list(text = "Number of Customers")) %>%
+    hc_add_series(name = "Count", data = location_count$n, colorByPoint = TRUE) %>%
+    hc_plotOptions(column = list(
+      dataLabels = list(enabled = TRUE)
+    ))
+})
+
+output$age_hist <- renderHighchart({
+  data <- data_filtered() %>% filter(!is.na(Age))
+  
+  hist_data <- as.data.frame(table(cut(data$Age, breaks = seq(min(data$Age), max(data$Age), by = 10))))
+  names(hist_data) <- c("Age", "Count")
+  
+  hist_data$Age <- as.character(hist_data$Age)  # Pastikan Age tidak berupa faktor
+  
+  highchart() %>%
+    hc_chart(type = "column") %>%
+    hc_xAxis(categories = hist_data$Age, title = list(text = "Age")) %>%
+    hc_yAxis(title = list(text = "Count")) %>%
+    hc_colors(c("#2973B2", "#48A6A7", "#9ACBD0", "#A3D1C6")) %>%
+    hc_add_series(
+      name = "Count",
+      data = as.numeric(hist_data$Count),
+      colorByPoint = TRUE  # Pastikan setiap bar mendapatkan warna berbeda
+    ) %>%
+    hc_plotOptions(column = list(
+      pointPadding = 0.2,
+      borderWidth = 0
+    ))
+})
+
+
+  output$tableOnlineShop <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM OnlineShop"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableCustomer <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+   # Ambil data produk dari database
+  product_data <- reactive({
+    dbGetQuery(con_db, "SELECT * FROM Product")
+  })
+  
+  # Ambil daftar kategori unik untuk filter
+  observe({
+    updateSelectInput(session, "select_category",
+                      choices = unique(product_data()$CategoryID),
+                      selected = NULL)
+  })
+  
+  # Filter data produk berdasarkan kategori yang dipilih
+  filtered_product_data <- reactive({
+    if (is.null(input$select_category) || input$select_category == "") {
+      return(product_data())
+    } else {
+      return(product_data() %>% filter(CategoryID == input$select_category))
+    }
+  })
+  
+  # Widget ValueBox: Total Produk dalam kategori yang dipilih
+  output$total_products <- renderValueBox({
+    total_products <- nrow(filtered_product_data())
+    
+    valueBox(
+      total_products,
+      "Total Products",
+      color = "blue",
+      icon = icon("box")
+    )
+  })
+  
+  # Widget DataTable: Menampilkan data produk
+  output$tableProduct <- renderDT({
+    datatable(filtered_product_data(),
+              options = list(scrollX = TRUE,
+                             scrollY = "400px",
+                             pageLength = 20,
+                             autoWidth = TRUE,
+                             class = 'cell-border stripe'))
+  })
+  
+  # Ambil data customer, produk, dan metode pembayaran untuk dropdown filter
+customer_list <- reactive({
+  dbGetQuery(con_db, "SELECT DISTINCT customerID FROM transaction")
+})
+
+product_list <- reactive({
+  dbGetQuery(con_db, "SELECT DISTINCT productID FROM product")
+})
+
+payment_list <- reactive({
+  dbGetQuery(con_db, "SELECT DISTINCT Method_name FROM onlineshop")
+})
+
+# Update dropdown filter berdasarkan database
+observe({
+  updateSelectInput(session, "select_customer",
+                    choices = customer_list()$customerID,
+                    selected = NULL)
+  
+  updateSelectInput(session, "select_product",
+                    choices = product_list()$productID,
+                    selected = NULL)
+  
+  updateSelectInput(session, "select_payment",
+                    choices = payment_list()$method_name,
+                    selected = NULL)
+})
+
+# Reactive untuk data transaksi dengan filter
+filtered_transactions <- reactive({
+  query <- "SELECT * FROM transaction WHERE 1=1"
+  
+  if (!is.null(input$select_customer) && input$select_customer != "") {
+    query <- paste(query, "AND customerID =", shQuote(input$select_customer))
+  }
+  
+  if (!is.null(input$select_product) && input$select_product != "") {
+    query <- paste(query, "AND productID =", shQuote(input$select_product))
+  }
+  
+  if (!is.null(input$select_payment) && input$select_payment != "") {
+    query <- paste(query, "AND method_name =", shQuote(input$select_payment))
+  }
+  
+  dbGetQuery(con_db, query)
+})
+
+# Value Box untuk Total Transaksi
+output$total_transactions <- renderValueBox({
+  total_trans <- nrow(filtered_transactions())
+  valueBox(total_trans, "Total Transactions", icon = icon("exchange-alt"), color = "blue")
+})
+
+# Value Box untuk Total Revenue
+output$total_revenue <- renderValueBox({
+  total_rev <- sum(filtered_transactions()$total_price, na.rm = TRUE)
+  valueBox(paste("Rp", format(total_rev, big.mark = ",")), "Total Revenue", icon = icon("dollar-sign"), color = "green")
+})
+
+# Value Box untuk Rata-rata Diskon
+output$avg_discount <- renderValueBox({
+  avg_disc <- mean(filtered_transactions()$discount, na.rm = TRUE)
+  valueBox(paste(format(avg_disc, digits = 2), "%"), "Average Discount", icon = icon("percent"), color = "red")
+})
+
+# Pie Chart untuk Status Voucher
+output$voucher_status_pie <- renderHighchart({
+  status_count <- filtered_transactions() %>%
+    filter(!is.na(voucher_status)) %>%
+    group_by(voucher_status) %>%
+    summarise(count = n()) %>%
+    ungroup()
+
+  highchart() %>%
+    hc_chart(type = "pie") %>%
+    hc_add_series(
+      name = "Jumlah",
+      data = lapply(1:nrow(status_count), function(i) {
+        list(name = status_count$voucher_status[i], y = status_count$count[i])
+      })
+    ) %>%
+    hc_plotOptions(pie = list(
+      allowPointSelect = TRUE,
+      cursor = "pointer",
+      dataLabels = list(enabled = TRUE, format = "<b>{point.name}</b>: {point.percentage:.1f}%")
+    ))
+})
+
+# Histogram untuk Distribusi Transaksi Berdasarkan Tanggal
+output$transaction_date_hist <- renderHighchart({
+  date_data <- filtered_transactions() %>%
+    filter(!is.na(transaction_date)) %>%
+    group_by(transaction_date) %>%
+    summarise(count = n()) %>%
+    ungroup()
+
+  highchart() %>%
+    hc_chart(type = "column") %>%
+    hc_xAxis(categories = as.character(date_data$transaction_date), title = list(text = "Tanggal Transaksi")) %>%
+    hc_yAxis(title = list(text = "Jumlah Transaksi")) %>%
+    hc_add_series(name = "Transactions", data = as.numeric(date_data$count), colorByPoint = TRUE)
+})
+
+# Tabel Transaksi dengan Filter
+output$tableTransaction <- renderDT({
+  datatable(filtered_transactions(), options = list(scrollX = TRUE))
+})
+
+  
+  tabItem(
+  tabName = "voucher",
+
+  # Header
+  fluidRow(
+    box(width = 12, div(strong("Voucher Data"), style = "text-align: center; font-size: 150%"))
+  ),
+
+  # Widget Filter Voucher
+  fluidRow(
+    box(width = 6, selectInput("select_voucher", "Pilih Voucher", choices = NULL))
+  ),
+
+  # ValueBox untuk ringkasan data voucher
+  fluidRow(
+    box(width = 6, valueBoxOutput("total_voucher")),
+    box(width = 6, valueBoxOutput("avg_discount"))
+  ),
+
+  # Grafik distribusi diskon berdasarkan voucher
+  fluidRow(
+    box(width = 12, highchartOutput("voucher_discount_pie"))
+  ),
+
+  # Tabel Voucher
+  fluidRow(
+    box(width = 12, DTOutput("tableVoucher"))
+  )
+)
+  
+  output$logo <- renderImage({
+    list(src = "www/logo.png", width = 100, height = 100)}, deleteFile = FALSE)
+  
+  output$Panji <- renderImage({
+    list(src = "www/Panji.jpg", contentType = "image/jpg", 
+         width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$Syafiq <- renderImage({
+    list(src = "www/Syafiq.jpg", contentType = "image/jpg", 
+         width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$Unique <- renderImage({
+    list(src = "www/Unique.jpg", contentType = "image/jpg", 
+         width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$Zahra <- renderImage({
+    list(src = "www/Zahra.jpg", contentType = "image/jpg", 
+         width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  output$Riza <- renderImage({
+    list(src = "www/Riza.jpg", contentType = "image/jpg", 
+         width = "200px", height = "200px")}, deleteFile = FALSE)
+  
+  # Tutup koneksi saat aplikasi berhenti
+  onStop(function() {
+    dbDisconnect(con_db)
+  })
+}
+
+```
+
+# Run app
+
+```{r}
+# Run App
+shinyApp(ui, server)
+```
