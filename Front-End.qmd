@@ -43,7 +43,7 @@ ui <- dashboardPage(
                menuSubItem("Voucher", tabName = "voucher", icon = icon("tags"))),
       menuItem("Member", tabName = "member", icon = icon("users"))
     )
-  ),
+  ), 
   
   dashboardBody(
     tabItems(
@@ -69,6 +69,30 @@ ui <- dashboardPage(
         DTOutput("tableOnlineShop")
       ),
 
+      # Tab Transaction
+      tabItem(
+        tabName = "transaction",
+        fluidRow(
+          box(width = 6, selectInput("select_customer", "Pilih Customer", choices = NULL)),
+          box(width = 6, selectInput("select_product", "Pilih Produk", choices = NULL))
+          ),
+        fluidRow(
+          box(width = 4, valueBoxOutput("total_transactions", width = NULL)),
+          box(width = 4, valueBoxOutput("total_revenue", width = NULL)),
+          box(width = 4, valueBoxOutput("avg_discount", width = NULL))
+          ),
+        fluidRow(
+          box(width = 12, div(strong("Top Produk Terlaris"),style="text-align: center;font-size: 150%"))
+          ),
+        fluidRow(
+          column(12, dataTableOutput("top_products_table"))
+          ),
+        fluidRow(
+          box(width = 12, div(strong("Transaction Data"),style="text-align: center;font-size: 150%"))
+          ),        
+        DTOutput("tableTransaction")
+        ),            
+
       # Tab Customer
       tabItem(
         tabName = "customer",
@@ -85,15 +109,6 @@ ui <- dashboardPage(
           box(width = 12, div(strong("Product Data"),style="text-align: center;font-size: 150%"))
         ),
         DTOutput("tableProduct")
-      ),
-
-      # Tab Transaction
-      tabItem(
-        tabName = "transaction",
-        fluidRow(
-          box(width = 12, div(strong("Transaction Data"),style="text-align: center;font-size: 150%"))
-        ),
-        DTOutput("tableTransaction")
       ),
 
       # Tab Voucher
@@ -179,21 +194,27 @@ con_db <- dbConnect(
   password = db_config$password,
   dbname = db_config$dbname
 )
-  
+
+# Tab Onlineshop  
+
   customer_data <- reactive({
   dbGetQuery(con_db, "SELECT * FROM OnlineShop")
 })
 
 observe({
   updateSelectInput(session, "category", 
-                    choices = unique(customer_data()$Product_Category),
-                    selected = NULL)
+                    choices = c("All", unique(customer_data()$Product_Category)),
+                    selected = "All")
 })
 
 # Update server logic to filter by selected category
 data_filtered <- reactive({
-  customer_data() %>%
-    filter(Product_Category == input$category)
+  req(customer_data())  # Pastikan data tersedia
+  if (input$category == "All") {
+    customer_data()
+  } else {
+    customer_data() %>% filter(Product_Category == input$category)
+  }
 })
 
 output$total_price_box <- renderValueBox({
@@ -292,8 +313,6 @@ output$age_hist <- renderHighchart({
     ))
 })
 
-
-
   output$tableOnlineShop <- renderDT({
     datatable(dbGetQuery(con_db, "SELECT * FROM OnlineShop"),
               options = list(scrollX = TRUE, 
@@ -303,23 +322,7 @@ output$age_hist <- renderHighchart({
                              class = 'cell-border stripe'))
   })
   
-  output$tableCustomer <- renderDT({
-    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
-              options = list(scrollX = TRUE, 
-                             scrollY = "400px",
-                             pageLength = 20, 
-                             autoWidth = TRUE, 
-                             class = 'cell-border stripe'))
-  })
-  
-  output$tableProduct <- renderDT({
-    datatable(dbGetQuery(con_db, "SELECT * FROM Product"),
-              options = list(scrollX = TRUE, 
-                             scrollY = "400px",
-                             pageLength = 20, 
-                             autoWidth = TRUE, 
-                             class = 'cell-border stripe'))
-  })
+# Tab Transaction  
   
   output$tableTransaction <- renderDT({
     datatable(dbGetQuery(con_db, "SELECT * FROM Transaction"),
@@ -330,6 +333,84 @@ output$age_hist <- renderHighchart({
                              class = 'cell-border stripe'))
   })
   
+  # Populate filter choices
+  observe({
+    customer_choices <- dbGetQuery(con_db, "SELECT DISTINCT LEFT(CustomerID, 2) AS CustomerPrefix FROM Customer")$CustomerPrefix
+    updateSelectInput(session, "select_customer", 
+                      choices = c("All", customer_choices))
+    
+    product_choices <- dbGetQuery(con_db, "SELECT DISTINCT product_Name FROM Product")$product_Name
+    updateSelectInput(session, "select_product", 
+                      choices = c("All", product_choices))
+  })
+  
+  # Total transactions
+  output$total_transactions <- renderValueBox({
+    query <- paste0("SELECT COUNT(TransactionID) AS total FROM Transaction WHERE 1=1",
+                    if (input$select_customer != "All") paste0(" AND LEFT(CustomerID, 2) = ", dbQuoteString(con_db, input$select_customer)),
+                    if (input$select_product != "All") paste0(" AND ProductID IN (SELECT ProductID FROM Product WHERE product_Name = ", dbQuoteString(con_db, input$select_product), ")"))
+    total_trans <- dbGetQuery(con_db, query)$total
+    valueBox(value = total_trans, subtitle = "Total Transactions", icon = icon("shopping-cart"), color = "aqua")
+  })
+  
+  # Total revenue
+  output$total_revenue <- renderValueBox({
+    query <- paste0("SELECT SUM(total_price) AS total FROM Transaction WHERE 1=1",
+                    if (input$select_customer != "All") paste0(" AND LEFT(CustomerID, 2) = ", dbQuoteString(con_db, input$select_customer)),
+                    if (input$select_product != "All") paste0(" AND ProductID IN (SELECT ProductID FROM Product WHERE product_Name = ", dbQuoteString(con_db, input$select_product), ")"))
+    total_rev <- dbGetQuery(con_db, query)$total
+    valueBox(value = paste0("$", formatC(total_rev, format = "f", big.mark = ",", digits = 2)), 
+             subtitle = "Total Revenue", icon = icon("dollar-sign"), color = "blue")
+  })
+  
+  # Average discount
+  output$avg_discount <- renderValueBox({
+    query <- paste0("SELECT AVG(v.Discount) AS avg_discount 
+              FROM Transaction t 
+              LEFT JOIN Voucher v ON t.VoucherID = v.VoucherID WHERE 1=1",
+                    if (input$select_customer != "All") paste0(" AND LEFT(CustomerID, 2) = ", dbQuoteString(con_db, input$select_customer)),
+                    if (input$select_product != "All") paste0(" AND ProductID IN (SELECT ProductID FROM Product WHERE product_Name = ", dbQuoteString(con_db, input$select_product), ")"))
+    avg_disc <- dbGetQuery(con_db, query)$avg_discount
+    valueBox(value = paste0(round(avg_disc, 2), "%"), 
+             subtitle = "Average Discount", icon = icon("percent"), color = "light-blue")
+  })
+  
+  # Query Top 5 Produk Terlaris
+  top_products_query <- "SELECT p.product_Name, COUNT(t.TransactionID) AS total_transactions
+                         FROM Transaction t
+                         JOIN Product p ON t.ProductID = p.ProductID
+                         GROUP BY p.product_Name
+                         ORDER BY total_transactions DESC;"
+  
+  # Render DataTable
+  output$top_products_table <- renderDataTable({
+    dbGetQuery(con_db, top_products_query)
+  })
+  
+# Tab Customer
+  
+  output$tableCustomer <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+# Tab Product
+  
+  output$tableProduct <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Product"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+# Tab Voucher
+  
   output$tableVoucher <- renderDT({
     datatable(dbGetQuery(con_db, "SELECT * FROM Voucher"),
               options = list(scrollX = TRUE, 
@@ -338,6 +419,8 @@ output$age_hist <- renderHighchart({
                              autoWidth = TRUE, 
                              class = 'cell-border stripe'))
   })
+  
+# Tab Member
   
   output$Panji <- renderImage({
   list(src = "www/Panji.jpg", contentType = "image/jpg", 
