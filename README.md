@@ -21,6 +21,15 @@
     <a href="https://shiny.posit.co">
   <img src="https://img.shields.io/badge/Powered%20by-R--Shiny-blue?style=for-the-badge&logo=r&logoColor=white" alt="Powered by R-Shiny"/>
 </a>
-
   </p>
+    <p align="center">
+    <a href="#all-demos">View Demo</a>
+    ·
+    <a href="https://github.com/anuraghazra/github-readme-stats/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml">Report Bug</a>
+    ·
+    <a href="https://github.com/anuraghazra/github-readme-stats/discussions/new?category=q-a">Ask Question</a>
+  </p>
+
+<p align="center">Tertarik dengan Project Kami? Segera <a href="https://www.paypal.me/anuraghazra">Kontak Kami!</a> Maka Kami akan buatkan insight untuk Anda!</p>
+
 
