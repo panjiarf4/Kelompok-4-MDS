@@ -4,11 +4,11 @@
  <p align="center">Manfaatkan Analitik untuk Meningkatkan Loyalitas dan Kepuasan Pelanggan Bersama Kami!</p>
 </p>
   <p align="center">
-    <a href="https://github.com/panjiarf4/Kelompok-4-MDS/actions">
-      <img alt="Demo" src="https://github.com/anuraghazra/github-readme-stats/workflows/Test/badge.svg" />
-    </a>
     <a href="https://github.com/panjiarf4/Kelompok-4-MDS/graphs/contributors">
       <img alt="GitHub Contributors" src="https://img.shields.io/github/contributors/panjiarf4/Kelompok-4-MDS" />
+    </a>
+    <a href="https://github.com/panjiarf4/Kelompok-4-MDS/issues">
+      <img alt="Last Commit" src="https://img.shields.io/github/last-commit/panjiarf4/Kelompok-4-MDS" />
     </a>
      <a href="https://github.com/panjiarf4/Kelompok-4-MDS/issues">
       <img alt="Total Commit" src="https://img.shields.io/github/commit-activity/y/panjiarf4/Kelompok-4-MDS" />
