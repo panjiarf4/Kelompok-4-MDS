@@ -25,7 +25,8 @@
     <br />
     <br />
     <a href="https://shiny.posit.co">
-      <img src="./powered-by-R-Shiny.svg"/>
-    </a>
+  <img src="https://img.shields.io/badge/Powered%20by-R--Shiny-blue?style=for-the-badge&logo=r&logoColor=white" alt="Powered by R-Shiny"/>
+</a>
+
   </p>
 
