@@ -1,0 +1,7 @@
+"VoucherID","Voucher_name","Discount"
+BT10,Discount 10%,10.00
+ELEC05,Discount 5%,5.00
+ELEC10,Discount 10%,10.00
+ELEC30,Discount 30%,30.00
+ELEC40,Discount 40%,40.00
+OFF20,Discount 20%,20.00
