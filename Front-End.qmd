@@ -1,0 +1,252 @@
+---
+title: "Front-End"
+author: "Kelompok 4"
+format: html
+editor: visual
+---
+
+## Library
+
+```{r}
+library(shiny)
+library(DBI)
+library(RMySQL)
+library(glue)
+library(readr)
+library(shinydashboard)
+library(DT)
+library(ggplot2)
+library(highcharter)
+library(dplyr)
+```
+
+## UI
+
+```{r}
+# UI
+ui <- dashboardPage(
+  dashboardHeader(title = "Sales Dashboard"),
+  
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Customer", tabName = "customer", icon = icon("users")),
+      menuItem("Online Shop", tabName = "onlineshop", icon = icon("shopping-cart")),
+      menuItem("Product", tabName = "product", icon = icon("box")),
+      menuItem("Transaction", tabName = "transaction", icon = icon("exchange-alt")),
+      menuItem("Voucher", tabName = "voucher", icon = icon("tags"))
+    )
+  ),
+  
+  dashboardBody(
+    tabItems(
+      tabItem(
+        tabName = "customer",
+        fluidRow(
+          box(title = div(strong("Gender Distribution"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("gender_pie")),
+          box(title = div(strong("Customer by Location"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("location_bar")),
+          box(title = div(strong("Age Distribution"), style="text-align: center; font-size: 100%;"), width = 4, highchartOutput("age_hist"))
+          ),
+        fluidRow(
+                box(width = 12,
+                    div(strong("Customer Data"),style="text-align: center;font-size: 150%")
+                )),
+        DTOutput("tableCustomer")
+      ),
+      tabItem(
+        tabName = "onlineshop",
+        fluidRow(
+                box(width = 12,
+                    div(strong("Online Shop Data"),style="text-align: center;font-size: 150%")
+                )),
+        DTOutput("tableOnlineShop")
+      ),
+      tabItem(
+        tabName = "product",
+        fluidRow(
+                box(width = 12,
+                    div(strong("Product Data"),style="text-align: center;font-size: 150%")
+                )),
+        DTOutput("tableProduct")
+      ),
+      tabItem(
+        tabName = "transaction",
+        fluidRow(
+                box(width = 12,
+                    div(strong("Transaction Data"),style="text-align: center;font-size: 150%")
+                )),
+        DTOutput("tableTransaction")
+      ),
+      tabItem(
+        tabName = "voucher",
+        fluidRow(
+                box(width = 12,
+                    div(strong("Voucher Data"),style="text-align: center;font-size: 150%")
+                )),
+        DTOutput("tableVoucher")
+      )
+    ),
+    fluidRow(
+      tags$div(
+        HTML("by <b>Kelompok 4</b> | 2025 "),
+        style = "text-align:center; padding:10px; font-size:14px; color:gray;"
+      )
+    )  
+  )
+)
+
+```
+
+## Server
+
+```{r}
+# Server
+server <- function(input, output) {
+  
+
+db_config <- list(
+  host = "127.0.0.1",
+  port = 3309,
+  user = "root",
+  password = "",
+  dbname = "Tugas_Mds"
+)
+  
+con_db <- dbConnect(
+  MySQL(),
+  host = db_config$host,
+  port = db_config$port,
+  user = db_config$user,
+  password = db_config$password,
+  dbname = db_config$dbname
+)
+  
+  customer_data <- reactive({
+  dbGetQuery(con_db, "SELECT Gender, Locations, Age FROM Customer")
+})
+
+# **1. Pie Chart - Distribusi Gender**
+output$gender_pie <- renderHighchart({
+  data <- customer_data()
+  
+  gender_count <- data %>%
+    filter(!is.na(Gender)) %>%
+    group_by(Gender) %>%
+    summarise(n = n()) %>%
+    ungroup()
+  
+  highchart() %>%
+    hc_chart(type = "pie") %>%
+    hc_add_series(
+      name = "Count",
+      data = lapply(1:nrow(gender_count), function(i) {
+        list(name = gender_count$Gender[i], y = gender_count$n[i])
+      })
+    ) %>%
+    hc_plotOptions(pie = list(
+      allowPointSelect = TRUE,
+      cursor = "pointer",
+      dataLabels = list(enabled = TRUE, format = "<b>{point.name}</b>: {point.y} ({point.percentage:.1f}%)")
+    ))
+})
+
+# **2. Bar Chart - Jumlah Customer Berdasarkan Lokasi (Urut dari besar ke kecil)**
+output$location_bar <- renderHighchart({
+  data <- customer_data()
+  
+  location_count <- data %>%
+    filter(!is.na(Locations)) %>%
+    group_by(Locations) %>%
+    summarise(n = n()) %>%
+    ungroup() %>%
+    arrange(desc(n))  # Urutkan dari besar ke kecil
+  
+  highchart() %>%
+    hc_chart(type = "column") %>%
+    hc_xAxis(categories = location_count$Locations) %>%
+    hc_yAxis(title = list(text = "Number of Customers")) %>%
+    hc_add_series(name = "Count", data = location_count$n, colorByPoint = TRUE) %>%
+    hc_plotOptions(column = list(
+      dataLabels = list(enabled = TRUE)
+    ))
+})
+
+# **3. Histogram - Distribusi Umur Customer**
+output$age_hist <- renderHighchart({
+  data <- customer_data() %>% filter(!is.na(Age))  # Hapus NA
+  
+  hist_data <- as.data.frame(table(cut(data$Age, breaks = seq(min(data$Age), max(data$Age), by = 5))))
+  names(hist_data) <- c("Age", "Count")
+  
+  hchart(
+    hist_data, "column", hcaes(x = Age, y = Count)
+  ) %>%
+    hc_chart(type = "column") %>%
+    hc_xAxis(title = list(text = "Age")) %>%
+    hc_yAxis(title = list(text = "Count")) %>%
+    hc_plotOptions(column = list(
+      pointPadding = 0.2,
+      borderWidth = 0,
+      color = "steelblue"
+    ))
+})
+
+  
+  output$tableCustomer <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableOnlineShop <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM OnlineShop"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableProduct <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Product"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableTransaction <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Transaction"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  output$tableVoucher <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Voucher"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  # Tutup koneksi saat aplikasi berhenti
+  onStop(function() {
+    dbDisconnect(con_db)
+  })
+}
+
+```
+
+## Run App
+
+```{r}
+# Run App
+shinyApp(ui, server)
+```
