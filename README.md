@@ -32,23 +32,22 @@
 
 <p align="center">Tertarik dengan Project Kami? Segera <a href="https://www.paypal.me/anuraghazra">Kontak Kami!</a> Maka Kami akan buatkan insight untuk Anda!</p>
 
-# **⭐ Fitur Utama** <!-- omit in toc -->
+## **⭐ Fitur Utama** <!-- omit in toc -->
 
 - [Behavior Based Segmentation](#behavior-based-segmentation)
-    - [Preprocessing Data](#preprocessing-data)
-    - [Menghitung Scoring RFM (Recency, Frequency, Monetary)](#scoring-rfm)
+    - [Overview Demografi Customer](#overview-customer)
+    - [Analisis Perilaku Transaksi Pelanggan](#analisis-transaksi)
     - [Segmentasi Pelanggan](#segmentasi-pelanggan)
     - [Segmentasi Voucher Berdasarkan Pelanggan](#segmentasi-voucher)
-    - [Demo](#demo-1)
 - [Automated Campaigns](#automated-campaigns)
     - [Tools Campaign](#campaihn)
     - [Demo](#demo)
-- [Predictive Analysis](#predictive-analysis)
-    - [Usage](#usage-1)
+- [Screenshoot](#)
+    - [Screenshoot](#usage-1)
     - [Demo](#demo-1)
 - [:sparkling\_heart: Interested? Contact Us!](#contact-us)
 
-# **🔥 Highlight Penting!** <!-- omit in toc -->
+## **🔥 Highlight Penting!** <!-- omit in toc -->
 
 > [!IMPORTANT]\
 > **APA ITU CRM?**
@@ -67,43 +66,30 @@
 > - **Pengambilan Keputusan Berbasis Data**  
 >  Dengan fitur analitik yang terdapat dalam CRM, perusahaan dapat memantau tren pasar, menganalisis efektivitas kampanye pemasaran, serta memprediksi kebutuhan pelanggan di masa depan. Data yang tersedia dapat digunakan untuk menyusun strategi bisnis yang berbasis fakta, sehingga mengurangi risiko keputusan yang tidak efektif.
 
-# Behavior Based Segmentation
+### Behavior Based Segmentation
 
 Copy and paste this into your markdown, and that's it. Simple!
 
-Change the `?username=` value to your GitHub username.
+#### Overview Demografi Customer
 
-```md
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra)](https://github.com/anuraghazra/github-readme-stats)
-```
-
-> [!WARNING]\
-> By default, the stats card only shows statistics like stars, commits, and pull requests from public repositories. To show private statistics on the stats card, you should [deploy your own instance](#deploy-on-your-own) using your own GitHub API token.
-
-> [!NOTE]\
-> Available ranks are S (top 1%), A+ (12.5%), A (25%), A- (37.5%), B+ (50%), B (62.5%), B- (75%), C+ (87.5%) and C (everyone). This ranking scheme is based on the [Japanese academic grading](https://wikipedia.org/wiki/Academic_grading_in_Japan) system. The global percentile is calculated as a weighted sum of percentiles for each statistic (number of commits, pull requests, reviews, issues, stars, and followers), based on the cumulative distribution function of the [exponential](https://wikipedia.org/wiki/exponential_distribution) and the [log-normal](https://wikipedia.org/wiki/Log-normal_distribution) distributions. The implementation can be investigated at [src/calculateRank.js](https://github.com/anuraghazra/github-readme-stats/blob/master/src/calculateRank.js). The circle around the rank shows 100 minus the global percentile.
-
-### Preprocessing Data
-
-GitHub Readme Stats comes with several built-in themes (e.g. `dark`, `radical`, `merko`, `gruvbox`, `tokyonight`, `onedark`, `cobalt`, `synthwave`, `highcontrast`, `dracula`).
+Visualisasi demografi pelanggan (seperti: `gender`, `usia`, `lokasi pelanggan`). INI HANYA CONTOH
 
 <img src="https://res.cloudinary.com/anuraghazra/image/upload/v1595174536/grs-themes_l4ynja.png" alt="GitHub Readme Stats Themes" width="600px"/>
 
-You can look at a preview for [all available themes](themes/README.md) or checkout the [theme config file](themes/index.js). Please note that we paused the addition of new themes to decrease maintenance efforts; all pull requests related to new themes will be closed.
+Anda bisa mendapatkan informasi sebaran pelanggan yang membeli produk berdasarkan gender, usia, lokasi pelanggan.
 
 
-### Menghitung Scoring RFM (Recency, Frequency, Monetary)
+#### Analisis Perilaku Transaksi Pelanggan
 
-[![Anurag's GitHub stats-Dark](https://github-readme-stats.vercel.app/api?username=anuraghazra\&show_icons=true\&theme=dark#gh-dark-mode-only)](https://github.com/anuraghazra/github-readme-stats#responsive-card-theme#gh-dark-mode-only)
+
 [![Anurag's GitHub stats-Light](https://github-readme-stats.vercel.app/api?username=anuraghazra\&show_icons=true\&theme=default#gh-light-mode-only)](https://github.com/anuraghazra/github-readme-stats#responsive-card-theme#gh-light-mode-only)
 
-Since GitHub will re-upload the cards and serve them from their [CDN](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-anonymized-urls), we can not infer the browser/GitHub theme on the server side. There are, however, four methods you can use to create dynamics themes on the client side.
+Anda bisa mendapatkan informasi Analisis kategori produk, metode pembayaran, dan pola transaksi.
 
 
-### Segmentasi Pelanggan
+#### Segmentasi Pelanggan
 
-We have included a `transparent` theme that has a transparent background. This theme is optimized to look good on GitHub's dark and light default themes. You can enable this theme using the `&theme=transparent` parameter like so:
-
+Kami menganalisis segmentasi pelanggan berdasarkan pembeli pertama, frekuensi yang sering membeli, dan pembeli terbanyak
 ```md
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true&theme=transparent)
 ```
@@ -115,10 +101,9 @@ We have included a `transparent` theme that has a transparent background. This t
 
 </details>
 
-### Segmentasi Voucher Berdasarkan Pelanggan
+#### Segmentasi Voucher Berdasarkan Pelanggan
 
-WYou can use the `bg_color` parameter to make any of [the available themes](themes/README.md) transparent. This is done by setting the `bg_color` to a color with a transparent alpha channel (i.e. `bg_color=00000000`):
-
+Kami menganalisis hubungan produk, pembayaran, dan penggunaan voucher.
 ```md
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true&bg_color=00000000)
 ```
@@ -129,3 +114,71 @@ WYou can use the `bg_color` parameter to make any of [the available themes](them
 ![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra\&show_icons=true\&bg_color=00000000)
 
 </details>
+
+
+## **:camera: SCREENSHOOT** <!-- omit in toc -->
+- Beranda
+<p align="center">
+  <img width="900" height="500" src="www/dashboard.png">
+</p>
+
+- Overview
+  <p align="center">
+  <img width="900" height="500" src="www/menu  overview.png">
+</p>
+
+- Analisis Perilaku
+<p align="center">
+  <img width="900" height="500" src="www/menu analisis harga.png">
+</p>
+
+- Analisis Segmentasi Pelanggan & Voucher
+<p align="center">
+  <img width="900" height="500" src="www/menu sebaran harga rumah.png">
+</p>
+  
+
+## **:card_file_box: Demo** <!-- omit in toc -->
+
+The link of our shinnyapps or dashboard project : [https://yudheeet1991.shinyapps.io/shiny-visdat/]
+
+
+## **:exclamation: Packages**
+
+- The Dashboard are `shinny`, `shinydashboard`, `ggplot2`, `DT`, `scales`, `tidyr`, `leaflet`, `readr`, `stringr`, and `dplyr` from package R.
+
+## **:heavy_check_mark: Data Description**
+
+<p align="center">
+  <img width="900" height="500" src="www/menu data.png">
+</p>
+
+Data terdiri dari 14 peubah dengan 1730 observasi
+
+| Attribute (Peubah)         | Type                  | Description                     		                                              |
+|:---------------------------|:----------------------|:-------------------------------------------------------------------------------  |
+| price_in_rp                | numerik               | Harga properti dalam satuan Rupiah.                       		                    |
+| address                    | factor	               | Alamat lengkap properti yang mencakup nama kompleks, jalan, atau area spesifik.  |
+| district                   | factor		             | Nama kecamatan atau wilayah tempat properti berada, tanpa detail alamat lengkap. |	
+| city                       | factor		             | Nama kota tempat properti berada.                 		                            |
+| lat	                       | numerik		           | Koordinat garis lintang lokasi properti dalam sistem geografis.	                |
+| long		    	             | numerik               | Koordinat garis bujur lokasi properti dalam sistem geografis.                    |
+| Total Luas                 | numerik               | Menunjukkan ukuran tanah properti dan luas area bangunan.                        |
+| carports                   | numerik		           | Jumlah carport (tempat parkir mobil tanpa garasi) yang tersedia.                 |	
+| electricity                | factor		             | menunjukkan daya yang dapat digunakan.                 		                      |
+| floors	                   | numerik		           | Menunjukkan tingkat vertikalitas properti.                      	                |
+| property_condition		     | factor                | Kondisi properti saat ini.                                                       |
+| building_orientation       | factor                | Arah orientasi bangunan, seperti "timur", "barat", atau "selatan".               |
+| garages                    | numerik	             | Jumlah garasi yang tersedia untuk kendaraan.                                     |
+| furnishing                 | factor		             | Tingkat kelengkapan interior rumah.                                              |	
+
+# **:heavy_heart_exclamation: Our Team**
+
+- [Muhammad Syafiq](https://github.com/muhammadsyafiq11) (M0501241005)
+- [Riza Rahmah Angelia](https://github.com/rizarangelia) (M0501241008)
+- [UNIQUE DESYRRE A. RESILOY](https://github.com/xx) (M0501241025)
+- [Panji Lokajaya Arifa](https://github.com/panjiarf4) (M0501241036)
+- [Putri Nisrina Az-Zahra](https://github.com/xx) (M0501241050)
+
+
+
