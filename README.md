@@ -55,16 +55,12 @@
 
 > [!IMPORTANT]\
 > **KENAPA CRM PENTING?**
-> - **Meningkatkan Retensi & Loyalitas Pelanggan**  
->  CRM membantu memahami pola perilaku pelanggan melalui data transaksi dan interaksi dengan produk. Sehingga insight ini, perusahaan dapat menawarkan program loyalitas, promosi yang disesuaikan, serta layanan yang lebih responsif guna meningkatkan kepuasan pelanggan dan mencegah churn (kehilangan pelanggan).
-> - **Personalisasi Pengalaman Pelanggan**  
->  Sistem CRM mengumpulkan dan menganalisis preferensi pelanggan berdasarkan riwayat pembelian dan interaksi sebelumnya. Dengan informasi ini, perusahaan dapat memberikan rekomendasi produk yang relevan, mengirimkan email pemasaran yang disesuaikan, serta menyusun strategi pemasaran yang lebih efektif.
-> - **Optimasi Strategi Penjualan & Konversi**  
->  Melalui CRM, perusahaan dapat mengidentifikasi pola pembelian pelanggan serta memahami faktor-faktor yang memengaruhi keputusan mereka untuk membeli produk tertentu. Sehingga perusahaan dapat merancang strategi penjualan yang lebih tepat sasaran, misalnya dengan memberikan diskon atau menawarkan paket bundling.
-> - **Meningkatkan Efisiensi Layanan Pelanggan**  
->  CRM memungkinkan integrasi dengan berbagai platform layanan pelanggan, seperti chatbot dan sistem tiket dukungan pelanggan. Hal ini membantu perusahaan dalam merespons pertanyaan pelanggan dengan lebih cepat dan akurat, sehingga meningkatkan kualitas layanan serta mempercepat penyelesaian masalah.
+> - **Meningkatkan Loyalitas Pelanggan**  
+>  CRM membantu memahami pola perilaku pelanggan melalui data transaksi dan interaksi dengan produk. Sehingga perusahaan dapat memberikan diskon atau menawarkan paket bundling sebagai program loyalitas pelanggan.
+> - **Personalisasi Rekomendasi kepada Pelanggan**  
+>  Sistem CRM dapat menganalisis preferensi pelanggan berdasarkan riwayat pembelian dan interaksi sebelumnya. Sehingg perusahaan dapat memberikan rekomendasi produk yang relevan dan mengirimkan email pemasaran yang disesuaikan.
 > - **Pengambilan Keputusan Berbasis Data**  
->  Dengan fitur analitik yang terdapat dalam CRM, perusahaan dapat memantau tren pasar, menganalisis efektivitas kampanye pemasaran, serta memprediksi kebutuhan pelanggan di masa depan. Data yang tersedia dapat digunakan untuk menyusun strategi bisnis yang berbasis fakta, sehingga mengurangi risiko keputusan yang tidak efektif.
+>  Dengan fitur analitik CRM tersebut perusahaan dapat memantau tren pasar, menganalisis efektivitas kampanye pemasaran, serta memprediksi kebutuhan pelanggan di masa depan. 
 
 ### Behavior Based Segmentation
 
