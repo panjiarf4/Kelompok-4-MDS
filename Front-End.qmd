@@ -26,22 +26,35 @@ library(highcharter)
 # UI
 ui <- dashboardPage(
   skin = "black",
-  dashboardHeader(title = span("Sales Dashboard", style = "font-weight: bold;")),
+  dashboardHeader(title = span("", style = "font-weight: bold;")),
   
   dashboardSidebar(
-  tags$div(
-    style = "text-align: center; padding: 10px;",
-    imageOutput("logo", height = "100px") 
-  ),
-  
-    sidebarMenu(
-      menuItem("Customer Insights", tabName = "onlineshop", icon = icon("shopping-cart")),
-      menuItem("Transaction Overview", tabName = "transaction", icon = icon("exchange-alt")),
-      menuItem("Table", tabName = "table", icon = icon("table")),
-      menuItem("Member", tabName = "member", icon = icon("users"))
-    )
-  ), 
-  
+    
+    tags$div(
+      style = "text-align: center; padding: 10px; font-size: 20px; font-weight: bold; color: white;",
+      "Customer & Sales"
+      ),
+    tags$div(
+      style = "text-align: center; padding: 0px; font-size: 30px; font-weight: bold; color: white;",
+      "Dashboard"
+      ),
+    tags$div(
+      style = "text-align: center; padding: 10px;",
+      imageOutput("logo", height = "100px") 
+      ),
+    
+    tags$div(
+      style = "background-color: white; border-radius: 10px; padding: 10px; margin: 10px;",
+      
+      sidebarMenu(
+        menuItem("Customer Insights", tabName = "onlineshop", icon = icon("shopping-cart")),
+        menuItem("Transaction Overview", tabName = "transaction", icon = icon("exchange-alt")),
+        menuItem("Table", tabName = "table", icon = icon("table")),
+        menuItem("Member", tabName = "member", icon = icon("users"))
+        )
+      )
+    ),
+
   dashboardBody(
     tabItems(
       # Tab Online Shop
@@ -65,11 +78,9 @@ ui <- dashboardPage(
               width = 4, highchartOutput("age_hist"))
         ),
         fluidRow(
-          box(width = 12, div(strong("Top Customer"),style="text-align: center;font-size: 150%"))
-          ),
-        fluidRow(
-          column(12, dataTableOutput("top_customer_table"))
-          )
+          box(title = tags$b("Top Customers by Total Spending"), status = "primary", width = 12,
+              DTOutput("top_customer_table"))
+        )
       ),
 
       # Tab Transaction
@@ -85,14 +96,19 @@ ui <- dashboardPage(
           box(width = 4, valueBoxOutput("avg_discount", width = NULL))
           ),
         fluidRow(
-          box(width = 12, div(strong("Top Produk Terlaris"),style="text-align: center;font-size: 150%"))
-          ),
+          box(title = tags$b("Total Sales by Location"), status = "primary", width = 6,
+              DTOutput("location_price_table")),
+          box(title = tags$b("Top Payment Methods"), status = "primary", width = 6,
+              DTOutput("top_payment_table"))),
         fluidRow(
-          column(12, dataTableOutput("top_products_table"))
-          )
+          box(title = tags$b("Top Products by Discount"), status = "primary", width = 6,
+              DTOutput("top_discount_table")),
+          box(title = tags$b("Top Products by Transaction"), status = "primary", width = 6,
+              DTOutput("top_products_table"))
+        )
       ),
 
-      # Tab Customer
+      # Tab Table
       tabItem(
         tabName = "table",
         fluidRow(
@@ -334,17 +350,9 @@ output$age_hist <- renderHighchart({
     ))
 })
 
-  # Query Top 5 Customer 
-  top_customer_query <- "SELECT CustomerID, 
-       ROUND(SUM(Total_Price), 1) AS Total_Price
-       FROM onlineshop
-       GROUP BY CustomerID
-       ORDER BY total_price DESC;"
-  
-  # Render DataTable
-  output$top_customer_table <- renderDataTable({
-    dbGetQuery(con_db, top_customer_query)
-  })
+# TABLES
+
+# Tab OnlineShop 
 
   output$tableOnlineShop <- renderDT({
     datatable(dbGetQuery(con_db, "SELECT * FROM OnlineShop"),
@@ -366,6 +374,40 @@ output$age_hist <- renderHighchart({
                              class = 'cell-border stripe'))
   })
 
+# Tab Customer
+  
+  output$tableCustomer <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+# Tab Product
+  
+  output$tableProduct <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Product"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+# Tab Voucher
+  
+  output$tableVoucher <- renderDT({
+    datatable(dbGetQuery(con_db, "SELECT * FROM Voucher"),
+              options = list(scrollX = TRUE, 
+                             scrollY = "400px",
+                             pageLength = 20, 
+                             autoWidth = TRUE, 
+                             class = 'cell-border stripe'))
+  })
+  
+  
 # Populate filter choices
 observe({
     location_choices <- dbGetQuery(con_db, "SELECT DISTINCT Locations FROM Customer")$Locations
@@ -407,52 +449,63 @@ output$avg_discount <- renderValueBox({
     valueBox(value = paste0(round(avg_disc, 2), "%"), 
              subtitle = "Average Discount", icon = icon("percent"), color = "light-blue")
 })
+  
+  # Query untuk Top 5 Produk Terlaris
+  output$top_products_table <- renderDT({
+    query <- "SELECT p.product_Name, COUNT(t.TransactionID) AS total_transactions
+              FROM Transaction t
+              JOIN Product p ON t.ProductID = p.ProductID
+              GROUP BY p.product_Name
+              ORDER BY total_transactions DESC;"
+    
+    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
+  })
 
-  
-  # Query Top 5 Produk Terlaris
-  top_products_query <- "SELECT p.product_Name, COUNT(t.TransactionID) AS total_transactions
-                         FROM Transaction t
-                         JOIN Product p ON t.ProductID = p.ProductID
-                         GROUP BY p.product_Name
-                         ORDER BY total_transactions DESC;"
-  
-  # Render DataTable
-  output$top_products_table <- renderDataTable({
-    dbGetQuery(con_db, top_products_query)
+  # Query untuk Urutan Lokasi Berdasarkan Total Harga
+  output$location_price_table <- renderDT({
+    query <- "SELECT Location, SUM(Total_Price) AS total_harga
+              FROM OnlineShop
+              GROUP BY Location
+              ORDER BY total_harga DESC;"
+    
+    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
   })
   
-# Tab Customer
-  
-  output$tableCustomer <- renderDT({
-    datatable(dbGetQuery(con_db, "SELECT * FROM Customer"),
-              options = list(scrollX = TRUE, 
-                             scrollY = "400px",
-                             pageLength = 20, 
-                             autoWidth = TRUE, 
-                             class = 'cell-border stripe'))
+   # Query untuk Top Metode Pembayaran Berdasarkan Jumlah Transaksi
+  output$top_payment_table <- renderDT({
+    query <- "SELECT Method_name, COUNT(*) AS TransactionID
+              FROM OnlineShop
+              GROUP BY Method_name
+              ORDER BY TransactionID DESC;"
+    
+    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
   })
   
-# Tab Product
-  
-  output$tableProduct <- renderDT({
-    datatable(dbGetQuery(con_db, "SELECT * FROM Product"),
-              options = list(scrollX = TRUE, 
-                             scrollY = "400px",
-                             pageLength = 20, 
-                             autoWidth = TRUE, 
-                             class = 'cell-border stripe'))
+  # Query untuk Top Produk Berdasarkan Diskon Terbesar
+  output$top_discount_table <- renderDT({
+    query <- "SELECT p.product_Name, MAX(v.Discount) AS Max_Discount 
+              FROM Transaction t 
+              JOIN Product p ON t.ProductID = p.ProductID 
+              JOIN Voucher v ON t.VoucherID = v.VoucherID 
+              GROUP BY p.product_Name 
+              ORDER BY Max_Discount DESC;"
+    
+    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
   })
   
-# Tab Voucher
-  
-  output$tableVoucher <- renderDT({
-    datatable(dbGetQuery(con_db, "SELECT * FROM Voucher"),
-              options = list(scrollX = TRUE, 
-                             scrollY = "400px",
-                             pageLength = 20, 
-                             autoWidth = TRUE, 
-                             class = 'cell-border stripe'))
+  # Query untuk Top Customer
+  output$top_customer_table <- renderDT({
+  query <- "SELECT CustomerID, Age, Gender, Location,
+            ROUND(SUM(Total_Price), 1) AS Total_Price
+            FROM OnlineShop
+            GROUP BY CustomerID, Age, Gender, Location
+            ORDER BY Total_Price DESC;"
+
+    
+    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
   })
+  
+ 
   
 # Tab Member
   
