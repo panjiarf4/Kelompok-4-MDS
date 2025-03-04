@@ -346,7 +346,10 @@ product_data <- dbGetQuery(con, "SELECT * FROM Product LIMIT 5")
 voucher_data <- dbGetQuery(con, "SELECT * FROM Voucher LIMIT 5")
 onlineshop_data <- dbGetQuery(con, "SELECT * FROM OnlineShop LIMIT 5")
 transaction_data <- dbGetQuery(con, "SELECT * FROM Transaction LIMIT 5")
+```
 
+
+```{r}
 # Tampilkan hasilnya
 message("📌 Data sampel dari setiap tabel:")
 print(customer_data)
@@ -354,5 +357,8 @@ print(product_data)
 print(voucher_data)
 print(onlineshop_data)
 print(transaction_data)
+```
 
+
+```{r}
 ```
