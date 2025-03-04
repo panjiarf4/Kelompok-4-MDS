@@ -149,10 +149,6 @@ The link of our shinnyapps or dashboard project : [https://yudheeet1991.shinyapp
 
 ## **:heavy_check_mark: Data Description**
 
-<p align="center">
-  <img width="900" height="500" src="www/menu data.png">
-</p>
-
 Data terdiri dari 14 peubah dengan 1730 observasi
 
 | Attribute (Peubah)         | Type                  | Description                     		                                              |
