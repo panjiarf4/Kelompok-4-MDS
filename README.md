@@ -32,4 +32,31 @@
 
 <p align="center">Tertarik dengan Project Kami? Segera <a href="https://www.paypal.me/anuraghazra">Kontak Kami!</a> Maka Kami akan buatkan insight untuk Anda!</p>
 
+# **⭐ Fitur Utama** <!-- omit in toc -->
+
+- [Behavior Based Segmentation](#behavior-based-segmentation)
+    - [Preprocessing Data](#preprocessing-data)
+    - [Menghitung Scoring RFM (Recency, Frequency, Monetary)](#scoring-rfm)
+    - [Segmentasi dengan K-Means](#segmentasi-pelanggan)
+    - [Segmentasi Pelanggan Mendapatkan Voucher](#segmentasi-voucher)
+    - [Demo](#demo-1)
+- [Automated Campaigns](#automated-campaigns)
+    - [Tools Campaign](#campaihn)
+    - [Demo](#demo)
+- [Predictive Analysis](#predictive-analysis)
+    - [Usage](#usage-1)
+    - [Demo](#demo-1)
+- [:sparkling\_heart: Interested? Contact Us!](#contact-us)
+
+# **🔥 Highlight Penting!** <!-- omit in toc -->
+
+> [!IMPORTANT]\
+> **APA ITU CRM?**
+> Customer Relationship Management (CRM) adalah strategi/teknologi yang digunakan untuk mengelola hubungan dengan pelanggan secara efektif. CRM mencakup proses pengumpulan, analisis, dan pemanfaatan data pelanggan untuk meningkatkan pengalaman dan loyalitas pelanggan, sehingga dapat meningkatkan penjualan.
+<img alt="Uptime Badge" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fgithub-readme-stats-git-monitoring-github-readme-stats-team.vercel.app%2Fapi%2Fstatus%2Fup%3Ftype%3Dshields">
+
+> [!IMPORTANT]\
+> We're a small team, and to prioritize, we rely on upvotes :+1:. We use the Top Issues dashboard for tracking community demand (see [#1935](https://github.com/anuraghazra/github-readme-stats/issues/1935)). Do not hesitate to upvote the issues and pull requests you are interested in. We will work on the most upvoted first.
+
+
 
