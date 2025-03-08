@@ -36,7 +36,17 @@ ui <- dashboardPage(
       
       sidebarMenu(
         menuItem("Customer Insights", tabName = "onlineshop", icon = icon("shopping-cart")),
-        menuItem("Transaction Overview", tabName = "transaction", icon = icon("exchange-alt")),
+        menuItem("Transaction Overview", tabName = "transaction", icon = icon("exchange-alt"))
+      )
+    ),
+    tags$div(
+      style = "text-align: center; padding: 10px;",
+      imageOutput("graphic", height = "100px") 
+    ),
+    tags$div(
+      style = "background-color: white; border-radius: 10px; padding: 10px; margin: 10px;",
+      
+      sidebarMenu(
         menuItem("Table", tabName = "table", icon = icon("table")),
         menuItem("Member", tabName = "member", icon = icon("users"))
       )
@@ -312,7 +322,7 @@ server <- function(input, output, session) {
     data$Generation <- cut(
       data$Age,
       breaks = c(-Inf, 27, 43, 59, Inf),  # Sesuaikan dengan rentang umur 2024
-      labels = c("Gen Z", "Millennial", "Gen X", "Baby")
+      labels = c("Gen Z", "Millennial", "Gen X", "Baby Boomers")
     )
     
     # Hitung jumlah individu dalam setiap generasi
@@ -515,7 +525,10 @@ server <- function(input, output, session) {
          width = "200px", height = "200px")}, deleteFile = FALSE)
   
   output$logo <- renderImage({
-    list(src = "www/logo.png", width = 100, height = 100)}, deleteFile = FALSE)
+    list(src = "www/logo.png", width = 150, height = 150)}, deleteFile = FALSE)
+  
+  output$graphic <- renderImage({
+    list(src = "www/graphic.png", width = 150, height = 150)}, deleteFile = FALSE)
   
   # Tutup koneksi saat aplikasi berhenti
   onStop(function() {
