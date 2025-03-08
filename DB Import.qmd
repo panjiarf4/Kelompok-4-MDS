@@ -348,7 +348,6 @@ onlineshop_data <- dbGetQuery(con, "SELECT * FROM OnlineShop LIMIT 5")
 transaction_data <- dbGetQuery(con, "SELECT * FROM Transaction LIMIT 5")
 ```
 
-
 ```{r}
 # Tampilkan hasilnya
 message("📌 Data sampel dari setiap tabel:")
@@ -358,7 +357,6 @@ print(voucher_data)
 print(onlineshop_data)
 print(transaction_data)
 ```
-
 
 ```{r}
 ```
