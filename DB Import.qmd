@@ -358,5 +358,3 @@ print(onlineshop_data)
 print(transaction_data)
 ```
 
-```{r}
-```
