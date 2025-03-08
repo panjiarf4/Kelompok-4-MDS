@@ -309,9 +309,13 @@ server <- function(input, output, session) {
       hc_colors(c("#2973B2", "#48A6A7", "#9ACBD0", "#A3D1C6")) %>% 
       hc_xAxis(categories = location_count$Location) %>%
       hc_yAxis(title = list(text = "Number of Customers")) %>%
-      hc_add_series(name = "Count", data = location_count$n, colorByPoint = TRUE) %>%
+      hc_add_series(
+        name = "Count",
+        data = location_count$n, 
+        colorByPoint = TRUE) %>%
       hc_plotOptions(column = list(
-        dataLabels = list(enabled = TRUE)
+        pointPadding = 0.2,
+        borderWidth = 0
       ))
   })
   
