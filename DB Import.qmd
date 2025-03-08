@@ -321,9 +321,9 @@ message("✅ Data Transaction berhasil dimasukkan.")
 
 ```
 
-# Mengecek jumlah data yang berhasil dimasukkan
 
 ```{r}
+# Mengecek jumlah data yg berhasil masuk
 message("🔍 Jumlah data dalam setiap tabel:")
 print(dbGetQuery(con, "SELECT COUNT(*) AS Customer_Count FROM Customer"))
 print(dbGetQuery(con, "SELECT COUNT(*) AS Product_Count FROM Product"))
