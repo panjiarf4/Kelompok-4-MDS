@@ -1,0 +1,201 @@
+CustomerID,Gender,Locations,Age
+12350,Male,California,43
+12359,Male,New York,34
+12373,Female,New York,25
+12383,Male,New York,35
+12393,Female,Chicago,38
+12410,Male,California,41
+12414,Male,New York,46
+12431,Female,New Jersey,39
+12433,Male,California,41
+12437,Female,New Jersey,47
+12464,Male,New York,22
+12471,Female,California,31
+12472,Female,New Jersey,33
+12474,Female,New York,29
+12477,Female,California,59
+12480,Male,California,54
+12481,Female,California,57
+12484,Male,California,48
+12489,Male,California,21
+12490,Female,New York,54
+12501,Male,Chicago,58
+12502,Female,California,39
+12503,Female,California,41
+12504,Female,California,19
+12505,Female,California,37
+12506,Female,California,55
+12507,Female,California,35
+12508,Female,California,52
+12509,Female,California,21
+12510,Female,California,49
+12511,Female,California,50
+12512,Female,California,17
+12513,Female,California,62
+12514,Female,California,26
+12515,Female,California,52
+12516,Female,California,42
+12517,Female,California,21
+12518,Female,California,25
+12519,Female,California,57
+12520,Female,California,35
+12521,Female,California,60
+12522,Female,California,20
+12523,Female,California,51
+12524,Female,California,35
+12525,Female,California,47
+12526,Female,California,25
+12527,Female,California,47
+12528,Female,California,50
+12529,Female,California,37
+12530,Female,California,63
+12531,Female,California,41
+12532,Female,California,19
+14606,Female,Chicago,22
+14607,Female,Chicago,29
+14608,Female,Chicago,32
+14609,Female,Chicago,41
+14610,Male,New York,50
+14611,Male,New York,56
+14612,Male,New York,30
+14614,Male,California,30
+14714,Male,Chicago,28
+14715,Male,Chicago,50
+14716,Male,Chicago,54
+14717,Male,Chicago,46
+14718,Male,Chicago,16
+14719,Male,Chicago,49
+14720,Male,Chicago,52
+14721,Male,Chicago,47
+14722,Male,Chicago,28
+14723,Male,Chicago,28
+14724,Male,Chicago,37
+14725,Male,Chicago,27
+14726,Female,Chicago,62
+14727,Female,Chicago,18
+14728,Female,Chicago,35
+14729,Female,Chicago,36
+14730,Female,Chicago,50
+14731,Female,Chicago,18
+14732,Female,Chicago,17
+15601,Female,Chicago,49
+15602,Female,Chicago,19
+15603,Female,Chicago,44
+15604,Female,Chicago,48
+15605,Female,Chicago,31
+15606,Female,Chicago,49
+15607,Female,New York,37
+15608,Female,New York,26
+15609,Female,New York,50
+15610,Female,New York,59
+15611,Female,New York,53
+15612,Female,New York,36
+15613,Female,New York,51
+15614,Female,New York,20
+15615,Male,New York,37
+15616,Male,Chicago,37
+15617,Male,Chicago,25
+15618,Male,Chicago,26
+15619,Male,Chicago,50
+15620,Male,Chicago,63
+15621,Female,California,47
+15622,Female,California,29
+15623,Female,California,52
+15624,Female,Chicago,20
+15625,Female,Chicago,38
+15626,Female,Chicago,16
+15627,Female,Chicago,42
+15628,Female,Chicago,24
+15629,Female,Chicago,26
+15630,Female,Chicago,35
+15631,Female,Chicago,46
+15632,Female,Chicago,50
+15633,Female,Chicago,28
+15634,Female,Chicago,40
+15635,Male,Chicago,48
+15636,Male,Chicago,53
+15637,Female,California,25
+15638,Female,Chicago,58
+15639,Female,Chicago,47
+15640,Female,Chicago,39
+15641,Female,Chicago,40
+15642,Female,Chicago,20
+16218,Male,Chicago,57
+16219,Male,Chicago,52
+16220,Male,Chicago,55
+16221,Male,Chicago,47
+16222,Male,Chicago,36
+16223,Male,Chicago,62
+16224,Male,Chicago,50
+16225,Male,Chicago,56
+16226,Male,Chicago,20
+16227,Male,Chicago,58
+16228,Male,Chicago,46
+16229,Female,California,37
+16230,Female,California,46
+16231,Female,California,62
+16232,Female,California,63
+16233,Female,California,63
+16234,Female,California,59
+16235,Female,California,23
+16236,Female,California,44
+16237,Female,California,31
+16238,Female,California,53
+16239,Female,California,35
+16240,Female,California,47
+16241,Female,California,34
+16242,Female,California,52
+16243,Female,California,26
+16244,Female,California,17
+16245,Female,California,37
+16246,Female,California,52
+16247,Female,California,54
+16248,Female,California,34
+16249,Female,California,38
+16250,Female,California,39
+16251,Female,California,60
+16252,Female,California,52
+16253,Female,California,31
+16254,Female,California,59
+16255,Female,California,60
+16256,Female,California,56
+16257,Female,California,29
+16258,Female,California,49
+16259,Female,California,42
+16260,Female,California,20
+16261,Female,California,48
+16262,Female,California,56
+16263,Female,California,16
+16264,Female,California,35
+16265,Female,California,63
+16266,Female,California,30
+16267,Female,California,53
+16268,Female,California,21
+16269,Female,California,21
+16270,Female,California,55
+16271,Female,California,40
+16272,Female,California,30
+16273,Female,California,39
+16274,Female,California,28
+16275,Female,California,47
+16276,Female,California,57
+16277,Female,California,54
+16278,Female,California,45
+16279,Female,California,46
+16280,Female,California,33
+17850,Male,Chicago,52
+17851,Male,Chicago,49
+17852,Male,Chicago,23
+17853,Male,Chicago,26
+17854,Male,Chicago,46
+17855,Male,Chicago,21
+17856,Male,Chicago,46
+17857,Male,Chicago,30
+17858,Male,Chicago,25
+17859,Male,Chicago,48
+17860,Male,Chicago,27
+17861,Male,Chicago,46
+17862,Male,Chicago,46
+17863,Male,Chicago,62
+17864,Male,Chicago,41
+17865,Male,Chicago,62
