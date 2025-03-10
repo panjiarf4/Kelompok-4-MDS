@@ -467,7 +467,7 @@ server <- function(input, output, session) {
               GROUP BY Location
               ORDER BY total_harga DESC;"
     
-    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
+    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, lengthChange = FALSE, searching = FALSE))
   })
   
   # Query untuk Top Metode Pembayaran Berdasarkan Jumlah Transaksi
@@ -477,7 +477,7 @@ server <- function(input, output, session) {
               GROUP BY Method_name
               ORDER BY TransactionID DESC;"
     
-    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
+    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, lengthChange = FALSE, searching = FALSE))
   })
   
   # Query untuk Top Produk Berdasarkan Diskon Terbesar
