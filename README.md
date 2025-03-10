@@ -68,34 +68,19 @@ Copy and paste this into your markdown, and that's it. Simple!
 
 #### Overview Demografi Customer
 
-Visualisasi demografi pelanggan (seperti: `gender`, `usia`, `lokasi pelanggan`). INI HANYA CONTOH
+Visualisasi demografi pelanggan (seperti: `Customer by Location`, `Gender Distribution`, `Age Distribution`).
 
-<img src="https://res.cloudinary.com/anuraghazra/image/upload/v1595174536/grs-themes_l4ynja.png" alt="GitHub Readme Stats Themes" width="600px"/>
+<img src="images/demografi.png" alt="GitHub Readme Stats Themes" width="600px"/>
 
-Anda bisa mendapatkan informasi sebaran pelanggan yang membeli produk berdasarkan gender, usia, lokasi pelanggan.
+Anda bisa mendapatkan informasi sebaran pelanggan yang membeli produk berdasarkan lokasi, gender dan usia pelanggan.
 
 
 #### Analisis Perilaku Transaksi Pelanggan
 
+<img src="images/table.png" alt="GitHub Readme Stats Themes" width="600px"/>
 
-[![Anurag's GitHub stats-Light](https://github-readme-stats.vercel.app/api?username=anuraghazra\&show_icons=true\&theme=default#gh-light-mode-only)](https://github.com/anuraghazra/github-readme-stats#responsive-card-theme#gh-light-mode-only)
+Anda bisa mendapatkan informasi Analisis data transaksi, customer, kategori produk, dan voucher.
 
-Anda bisa mendapatkan informasi Analisis kategori produk, metode pembayaran, dan pola transaksi.
-
-
-#### Segmentasi Pelanggan
-
-Kami menganalisis segmentasi pelanggan berdasarkan pembeli pertama, frekuensi yang sering membeli, dan pembeli terbanyak
-```md
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true&theme=transparent)
-```
-
-<details>
-<summary>:eyes: Show example</summary>
-
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra\&show_icons=true\&theme=transparent)
-
-</details>
 
 #### Segmentasi Voucher Berdasarkan Pelanggan
 
@@ -113,30 +98,20 @@ Kami menganalisis hubungan produk, pembayaran, dan penggunaan voucher.
 
 
 ## **:camera: SCREENSHOOT** <!-- omit in toc -->
-- Beranda
-<p align="center">
-  <img width="900" height="500" src="www/dashboard.png">
-</p>
 
-- Overview
+- Transaction Overview
   <p align="center">
-  <img width="900" height="500" src="www/menu  overview.png">
+  <img width="900" height="500" src="images/transaction.png">
 </p>
 
-- Analisis Perilaku
+- Top 5 Customer
 <p align="center">
-  <img width="900" height="500" src="www/menu analisis harga.png">
+  <img width="900" height="500" src="images/top5-customer.png">
 </p>
-
-- Analisis Segmentasi Pelanggan & Voucher
-<p align="center">
-  <img width="900" height="500" src="www/menu sebaran harga rumah.png">
-</p>
-  
 
 ## **:card_file_box: Demo** <!-- omit in toc -->
 
-The link of our shinnyapps or dashboard project : [https://yudheeet1991.shinyapps.io/shiny-visdat/]
+The link of our shinnyapps or dashboard project : [https://putriniss.shinyapps.io/CRM-MDS-Kel4/]
 
 
 ## **:exclamation: Packages**
@@ -168,9 +143,9 @@ Data terdiri dari 14 peubah dengan 1730 observasi
 
 - [Muhammad Syafiq](https://github.com/muhammadsyafiq11) (M0501241005)
 - [Riza Rahmah Angelia](https://github.com/rizarangelia) (M0501241008)
-- [UNIQUE DESYRRE A. RESILOY](https://github.com/xx) (M0501241025)
+- [UNIQUE DESYRRE A. RESILOY](https://github.com/xx](https://github.com/uniqueeee777) (M0501241025)
 - [Panji Lokajaya Arifa](https://github.com/panjiarf4) (M0501241036)
-- [Putri Nisrina Az-Zahra](https://github.com/xx) (M0501241050)
+- [Putri Nisrina Az-Zahra](https://github.com/xx](https://github.com/zhrnisrina) (M0501241050)
 
 
 
