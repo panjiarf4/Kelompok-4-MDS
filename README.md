@@ -16,7 +16,7 @@
     <br />
   </p>
   
-<p align="center">Tertarik dengan Project Kami? Segera <a href="https://www.paypal.me">Kontak Kami!</a> Maka Kami akan buatkan insight untuk Anda!</p>
+<p align="center">Tertarik dengan Project Kami? Segera <a href="https://putriniss.shinyapps.io/CRM-MDS-Kel4/"> Kontak Kami!</a> Maka Kami akan buatkan insight untuk Anda!</p>
 
 ## **⭐ Fitur Utama** <!-- omit in toc -->
 
@@ -45,10 +45,10 @@
 > - **Pengambilan Keputusan Berbasis Data**  
 >  Dengan fitur analitik CRM tersebut perusahaan dapat memantau tren pasar, menganalisis efektivitas kampanye pemasaran, serta memprediksi kebutuhan pelanggan di masa depan. 
 
-### Customer Insight
+### Customer Insight <a id="customer-insight"></a>
 Memberikan insight dan membantu menganalisis kebutuhan pelanggan berdasarkan sebaran demografi dari Customer Anda!
 
-#### Overview Demografi Customer
+#### Overview Demografi Customer 
 Visualisasi demografi pelanggan (seperti: `Sebaran Pelanggan berdasarkan Area Lokasi`, `Sebaran Pelanggan Berdasarkan Gender`, `Sebaran Pelanggan Berdasarkan Usia/Generasi`).
 
 <img src="images/demografi.png" alt="" width="600px"/>
@@ -63,19 +63,19 @@ Visualisasi detail pelanggan yang masuk ke dalam top 5 `Total Expenses` terbanya
 Anda bisa mendapatkan rekomendasi pemberian voucher spesifik kepada pelanggan yang memiliki behavior melakukan pembelian dengan total expense tertinggi berdasarkan kategori produk.
 
 
-### Transaction Overview
+### Transaction Overview <a id="transaction-overview"></a>
 Memberikan insight dan membantu menganalisis `Total Sales`, `Top Payment`, `Top Products by Discount` dan `Top Products by Transactions`
 
 <img src="images/transaction.png" alt="" width="600px"/>
 
-### **:camera: SCREENSHOOT** <!-- omit in toc -->
+### **:camera: SCREENSHOOT** <a id="screenshoot"></a>
 
 - Detail Data
   <p align="center">
   <img width="900" height="500" src="images/detail.png">
 </p>
 
-### **:card_file_box: View Demo** <!-- omit in toc -->
+### **:card_file_box: View Demo** <a id="demo"></a>
 
 Berikut link shinnyapps atau contoh website Kami : [https://putriniss.shinyapps.io/CRM-MDS-Kel4/]
 
@@ -124,7 +124,7 @@ Berikut link shinnyapps atau contoh website Kami : [https://putriniss.shinyapps.
 </a>
 </p>
 
-# **:heavy_heart_exclamation: Our Team (GROUP-4)**
+# **:heavy_heart_exclamation: Our Team (Group-4)** <a id="contact-us"></a>
 
 - [Muhammad Syafiq](https://github.com/muhammadsyafiq11)       (M0501241005)
 - [Riza Rahmah Angelia](https://github.com/rizarangelia)       (M0501241008)
