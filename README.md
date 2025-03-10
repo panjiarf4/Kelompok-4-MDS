@@ -13,38 +13,21 @@
      <a href="https://github.com/panjiarf4/Kelompok-4-MDS/issues">
       <img alt="Total Commit" src="https://img.shields.io/github/commit-activity/y/panjiarf4/Kelompok-4-MDS" />
     </a>
-    <a href="https://github.com/panjiarf4/Kelompok-4-MDS/pulls">
-      <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/anuraghazra/github-readme-stats?color=0088ff" />
-    </a>
     <br />
-    <br />
-    <a href="https://shiny.posit.co">
-  <img src="https://img.shields.io/badge/Powered%20by-R--Shiny-blue?style=for-the-badge&logo=r&logoColor=white" alt="Powered by R-Shiny"/>
-</a>
   </p>
-    <p align="center">
-    <a href="#all-demos">View Demo</a>
-    ·
-    <a href="https://github.com/anuraghazra/github-readme-stats/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml">Report Bug</a>
-    ·
-    <a href="https://github.com/anuraghazra/github-readme-stats/discussions/new?category=q-a">Ask Question</a>
-  </p>
-
-<p align="center">Tertarik dengan Project Kami? Segera <a href="https://www.paypal.me/anuraghazra">Kontak Kami!</a> Maka Kami akan buatkan insight untuk Anda!</p>
+  
+<p align="center">Tertarik dengan Project Kami? Segera <a href="https://www.paypal.me">Kontak Kami!</a> Maka Kami akan buatkan insight untuk Anda!</p>
 
 ## **⭐ Fitur Utama** <!-- omit in toc -->
 
-- [Behavior Based Segmentation](#behavior-based-segmentation)
-    - [Overview Demografi Customer](#overview-customer)
-    - [Analisis Perilaku Transaksi Pelanggan](#analisis-transaksi)
-    - [Segmentasi Pelanggan](#segmentasi-pelanggan)
-    - [Segmentasi Voucher Berdasarkan Pelanggan](#segmentasi-voucher)
-- [Automated Campaigns](#automated-campaigns)
-    - [Tools Campaign](#campaihn)
-    - [Demo](#demo)
-- [Screenshoot](#)
-    - [Screenshoot](#usage-1)
-    - [Demo](#demo-1)
+- [Customer Insight](#customer-insight)
+    - [Demografi Customer](#demografi-customer)
+    - [Rekomendasi Voucher berdasarkan Total Expense Customer](#voucher-customer)
+- [Transaction Overview](#transaction-overview)
+    - [Total Sales & Top Payment](#total-sales)
+    - [Top Products](#top-product)
+- [Screenshoot](#screenshoot)
+- [View Demo](#demo)
 - [:sparkling\_heart: Interested? Contact Us!](#contact-us)
 
 ## **🔥 Highlight Penting!** <!-- omit in toc -->
@@ -62,90 +45,92 @@
 > - **Pengambilan Keputusan Berbasis Data**  
 >  Dengan fitur analitik CRM tersebut perusahaan dapat memantau tren pasar, menganalisis efektivitas kampanye pemasaran, serta memprediksi kebutuhan pelanggan di masa depan. 
 
-### Behavior Based Segmentation
-
-Copy and paste this into your markdown, and that's it. Simple!
+### Customer Insight
+Memberikan insight dan membantu menganalisis kebutuhan pelanggan berdasarkan sebaran demografi dari Customer Anda!
 
 #### Overview Demografi Customer
+Visualisasi demografi pelanggan (seperti: `Sebaran Pelanggan berdasarkan Area Lokasi`, `Sebaran Pelanggan Berdasarkan Gender`, `Sebaran Pelanggan Berdasarkan Usia/Generasi`).
 
-Visualisasi demografi pelanggan (seperti: `Customer by Location`, `Gender Distribution`, `Age Distribution`).
+<img src="images/demografi.png" alt="" width="600px"/>
 
-<img src="images/demografi.png" alt="GitHub Readme Stats Themes" width="600px"/>
+Anda bisa mendapatkan informasi sebaran pelanggan yang membeli kategori produk: `Home Furniture`, `Apparel`, `Bottle` dan `Office`.
 
-Anda bisa mendapatkan informasi sebaran pelanggan yang membeli produk berdasarkan lokasi, gender dan usia pelanggan.
+#### Analisis Rekomendasi Voucher
+Visualisasi detail pelanggan yang masuk ke dalam top 5 `Total Expenses` terbanyak dan voucher rekomendasi yang diberikan berdasarkan kategori: `Home Furniture`, `Apparel`, `Bottle` dan `Office`.
 
+<img src="images/top-customer.png" alt="" width="600px"/>
 
-#### Analisis Perilaku Transaksi Pelanggan
-
-<img src="images/table.png" alt="GitHub Readme Stats Themes" width="600px"/>
-
-Anda bisa mendapatkan informasi Analisis data transaksi, customer, kategori produk, dan voucher.
+Anda bisa mendapatkan rekomendasi pemberian voucher spesifik kepada pelanggan yang memiliki behavior melakukan pembelian dengan total expense tertinggi berdasarkan kategori produk.
 
 
-#### Segmentasi Voucher Berdasarkan Pelanggan
+### Transaction Overview
+Memberikan insight dan membantu menganalisis `Total Sales`, `Top Payment`, `Top Products by Discount` dan `Top Products by Transactions`
 
-Kami menganalisis hubungan produk, pembayaran, dan penggunaan voucher.
-```md
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra&show_icons=true&bg_color=00000000)
-```
+<img src="images/transaction.png" alt="" width="600px"/>
+
+### **:camera: SCREENSHOOT** <!-- omit in toc -->
+
+- Detail Data
+  <p align="center">
+  <img width="900" height="500" src="images/detail.png">
+</p>
+
+### **:card_file_box: View Demo** <!-- omit in toc -->
+
+Berikut link shinnyapps atau contoh website Kami : [https://putriniss.shinyapps.io/CRM-MDS-Kel4/]
+
+
+## **:exclamation: Detail Project Website**
+### **Packages** <!-- omit in toc -->
+- Package yang Kami gunakan adalah: `shinny`, `shinydashboard`, `ggplot2`, `DT`, `scales`, `tidyr`, `leaflet`, `readr`, `stringr`, and `dplyr` from package R.
+
+### **Connection** <!-- omit in toc -->
+- Koneksi yang digunakan adalah koneksi bersama menggunakan DB Open-Source (Free): `clever-cloud.com`
 
 <details>
-<summary>:eyes: Show example</summary>
-
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra\&show_icons=true\&bg_color=00000000)
-
+<summary>:eyes: Detail Connection</summary>
+<img src="Data/db.png" alt="" width="600px"/>
 </details>
 
+### **Entity Relationship Diagram (ERD)** <!-- omit in toc -->
+- ERD yang dibuat berdasarkan data insight yang dibutuhkan
 
-## **:camera: SCREENSHOOT** <!-- omit in toc -->
+<details>
+<summary>:eyes: Detail ERD</summary>
+<img src="doc/ER Project Kelompok.png" alt="" width="600px"/>
+</details>
 
-- Transaction Overview
-  <p align="center">
-  <img width="900" height="500" src="images/transaction.png">
-</p>
+### **:heavy_check_mark: Data Description**
+- Data berasal dari 5 entity dinormalisasikan menjadi 10 entity berdasarkan ERD di atas. Hal ini bertujuan untuk memudahkan pembuatan insight dashboard sesuai kebutuhan spesifik, agar meminimalisir resiko data redundan. (Total data observasi: 200 rows)
 
-- Top 5 Customer
+
+| Entity                     | Description                   | Attribute                    		                                              |
+|:---------------------------|:------------------------------|:-------------------------------------------------------------------------------  |
+|m_category                  | Kategori Produk Furnish, dsb  |CategoryID, Product_Category                                   		                    |
+|m_customer                  | Gender, Usia Customer         |CustomerID, Gender, Locations, Age, Created_at, LocID               |
+|m_location                  | Nama kota, area membeli       |LocID, Loc_Name	             |	
+|m_payment                   | Metode pembayaran             |PMID, Method_name          		                            |
+|m_product 	                 | Detail Produk	                |ProductID, Product_Name, Product_Description, CategoryID		           |
+|m_status 		    	            | Status voucher                |statusID, Voucher_status             |
+|m_stockprice                | Stok ketersediaan produk      |ProductID, Product_Name, Product_Description, Product_Category, Stock, Price, CategoryID, StockID     | 
+|m_voucher                   | Detail Voucher                |VoucherID, voucher_Name, Discount	           | 	
+|onlineshop_transaction      | Data transaksi customer       |-terlampir pada gambar ERD-           | 
+|transaction_history         | Data pembelian product        |transactionID, transaction_date, CustomerID, productID, quantity, voucherID, price, discount, total_price, method_name, voucher_status, pmid, statusvc_id|	
+
 <p align="center">
-  <img width="900" height="500" src="images/top5-customer.png">
+<a href="https://putriniss.shinyapps.io/CRM-MDS-Kel4/">View Demo</a>
+     <a href="https://shiny.posit.co">
+  <img src="https://img.shields.io/badge/Powered%20by-R--Shiny-blue?style=for-the-badge&logo=r&logoColor=white" alt="Powered by R-Shiny"/>
+</a>
 </p>
 
-## **:card_file_box: Demo** <!-- omit in toc -->
+# **:heavy_heart_exclamation: Our Team (GROUP-4)**
 
-The link of our shinnyapps or dashboard project : [https://putriniss.shinyapps.io/CRM-MDS-Kel4/]
-
-
-## **:exclamation: Packages**
-
-- The Dashboard are `shinny`, `shinydashboard`, `ggplot2`, `DT`, `scales`, `tidyr`, `leaflet`, `readr`, `stringr`, and `dplyr` from package R.
-
-## **:heavy_check_mark: Data Description**
-
-Data terdiri dari 14 peubah dengan 1730 observasi
-
-| Attribute (Peubah)         | Type                  | Description                     		                                              |
-|:---------------------------|:----------------------|:-------------------------------------------------------------------------------  |
-| price_in_rp                | numerik               | Harga properti dalam satuan Rupiah.                       		                    |
-| address                    | factor	               | Alamat lengkap properti yang mencakup nama kompleks, jalan, atau area spesifik.  |
-| district                   | factor		             | Nama kecamatan atau wilayah tempat properti berada, tanpa detail alamat lengkap. |	
-| city                       | factor		             | Nama kota tempat properti berada.                 		                            |
-| lat	                       | numerik		           | Koordinat garis lintang lokasi properti dalam sistem geografis.	                |
-| long		    	             | numerik               | Koordinat garis bujur lokasi properti dalam sistem geografis.                    |
-| Total Luas                 | numerik               | Menunjukkan ukuran tanah properti dan luas area bangunan.                        |
-| carports                   | numerik		           | Jumlah carport (tempat parkir mobil tanpa garasi) yang tersedia.                 |	
-| electricity                | factor		             | menunjukkan daya yang dapat digunakan.                 		                      |
-| floors	                   | numerik		           | Menunjukkan tingkat vertikalitas properti.                      	                |
-| property_condition		     | factor                | Kondisi properti saat ini.                                                       |
-| building_orientation       | factor                | Arah orientasi bangunan, seperti "timur", "barat", atau "selatan".               |
-| garages                    | numerik	             | Jumlah garasi yang tersedia untuk kendaraan.                                     |
-| furnishing                 | factor		             | Tingkat kelengkapan interior rumah.                                              |	
-
-# **:heavy_heart_exclamation: Our Team**
-
-- [Muhammad Syafiq](https://github.com/muhammadsyafiq11) (M0501241005)
-- [Riza Rahmah Angelia](https://github.com/rizarangelia) (M0501241008)
-- [UNIQUE DESYRRE A. RESILOY](https://github.com/xx](https://github.com/uniqueeee777) (M0501241025)
-- [Panji Lokajaya Arifa](https://github.com/panjiarf4) (M0501241036)
-- [Putri Nisrina Az-Zahra](https://github.com/xx](https://github.com/zhrnisrina) (M0501241050)
+- [Muhammad Syafiq](https://github.com/muhammadsyafiq11)       (M0501241005)
+- [Riza Rahmah Angelia](https://github.com/rizarangelia)       (M0501241008)
+- [UNIQUE DESYRRE A. RESILOY](https://github.com/uniqueeee777) (M0501241025)
+- [Panji Lokajaya Arifa](https://github.com/panjiarf4)         (M0501241036)
+- [Putri Nisrina Az-Zahra](https://github.com/zhrnisrina)      (M0501241050)
 
 
 
