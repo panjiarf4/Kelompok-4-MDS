@@ -76,7 +76,7 @@ ui <- dashboardPage(
               width = 4, highchartOutput("age_hist"))
         ),
         fluidRow(
-          box(title = tags$b("Top Customers by Total Spending"), status = "primary", width = 12,
+          box(title = tags$b("Top 5 Customers by Category and Voucher Recommendation"), status = "primary", width = 12,
               DTOutput("top_customer_table"))
         )
       ),
@@ -492,16 +492,20 @@ server <- function(input, output, session) {
     datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
   })
   
-  # Query untuk Top Customer
   output$top_customer_table <- renderDT({
-    query <- "SELECT CustomerID, Age, Gender, Location,
-            ROUND(SUM(Total_Price), 1) AS Total_Price
-            FROM OnlineShop
-            GROUP BY CustomerID, Age, Gender, Location
-            ORDER BY Total_Price DESC;"
+    data <- data_filtered() %>%
+      group_by(CustomerID, Age, Gender, Location, VoucherID, Voucher_name) %>%
+      summarise(Total_Price = round(sum(Total_Price, na.rm = TRUE), 1), .groups = "drop") %>%
+      arrange(desc(Total_Price)) %>%
+      rename(
+        `Total Expenses` = Total_Price,
+        `Voucher Recommendation` = VoucherID,
+        `Total Discount` = Voucher_name
+      ) %>%
+      select(CustomerID, Age, Gender, Location, `Total Expenses`, `Voucher Recommendation`, `Total Discount`) %>%
+      head(5)  # Ambil hanya 5 baris teratas
     
-    
-    datatable(dbGetQuery(con_db, query), options = list(pageLength = 5, scrollX = TRUE))
+    datatable(data, options = list(pageLength = 5, scrollX = TRUE, lengthChange = FALSE))
   })
   
   
