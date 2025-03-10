@@ -85,8 +85,8 @@ ui <- dashboardPage(
       tabItem(
         tabName = "transaction",
         fluidRow(
-          box(width = 6, selectInput("select_location", "Pilih Lokasi", choices = NULL)),
-          box(width = 6, selectInput("select_product", "Pilih Produk", choices = NULL))
+          box(width = 6, selectInput("select_location", "Select Lokasi", choices = NULL)),
+          box(width = 6, selectInput("select_product", "Select Produk", choices = NULL))
         ),
         fluidRow(
           box(width = 4, valueBoxOutput("total_revenue", width = NULL)),
@@ -505,7 +505,7 @@ server <- function(input, output, session) {
       select(CustomerID, Age, Gender, Location, `Total Expenses`, `Voucher Recommendation`, `Total Discount`) %>%
       head(5)  # Ambil hanya 5 baris teratas
     
-    datatable(data, options = list(pageLength = 5, scrollX = TRUE, lengthChange = FALSE))
+    datatable(data, options = list(pageLength = 5, lengthChange = FALSE, searching = FALSE))
   })
   
   
