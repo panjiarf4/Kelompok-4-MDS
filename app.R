@@ -208,8 +208,7 @@ server <- function(input, output, session) {
     dbname = db_config$dbname
   )
   
-  # Tab Onlineshop  
-  
+  # Filter by Category 
   customer_data <- reactive({
     dbGetQuery(con_db, "SELECT * FROM OnlineShop")
   })
@@ -269,6 +268,7 @@ server <- function(input, output, session) {
     )
   })
   
+  # Gender Pie Chart by Category
   output$gender_pie <- renderHighchart({
     data <- data_filtered()
     
@@ -294,6 +294,7 @@ server <- function(input, output, session) {
       ))
   })
   
+  # Location Chart by Category
   output$location_bar <- renderHighchart({
     data <- data_filtered()
     
