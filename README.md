@@ -75,10 +75,6 @@ Memberikan insight dan membantu menganalisis `Total Sales`, `Top Payment`, `Top 
   <img width="900" height="500" src="images/detail.png">
 </p>
 
-### **:card_file_box: View Demo** <a id="demo"></a>
-
-Berikut link shinnyapps atau contoh website Kami : [https://putriniss.shinyapps.io/CRM-MDS-Kel4/]
-
 
 ## **:exclamation: Detail Project Website**
 ### **Packages** <!-- omit in toc -->
@@ -116,6 +112,11 @@ Berikut link shinnyapps atau contoh website Kami : [https://putriniss.shinyapps.
 |m_voucher                   | Detail Voucher                |VoucherID, voucher_Name, Discount	           | 	
 |onlineshop_transaction      | Data transaksi customer       |-terlampir pada gambar ERD-           | 
 |transaction_history         | Data pembelian product        |transactionID, transaction_date, CustomerID, productID, quantity, voucherID, price, discount, total_price, method_name, voucher_status, pmid, statusvc_id|	
+
+### **:card_file_box: View Demo** <a id="demo"></a>
+
+Berikut link shinnyapps atau contoh website Kami : [https://putriniss.shinyapps.io/CRM-MDS-Kel4/]
+
 
 <p align="center">
 <a href="https://putriniss.shinyapps.io/CRM-MDS-Kel4/">View Demo</a>
